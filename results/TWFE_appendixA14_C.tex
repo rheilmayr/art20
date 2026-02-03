@@ -1,0 +1,19 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\toprule
+          &\multicolumn{1}{c}{grass}&\multicolumn{1}{c}{crop}&\multicolumn{1}{c}{natural}&\multicolumn{1}{c}{plantation}\\
+\midrule
+FTAI\_old  &    0.029***&   -0.001   &   -0.003   &   -0.031** \\
+          &  (0.011)   &  (0.012)   &  (0.007)   &  (0.014)   \\
+\addlinespace
+FTAI\_new  &    0.022** &   -0.007   &    0.001   &   -0.015*  \\
+          &  (0.010)   &  (0.012)   &  (0.005)   &  (0.008)   \\
+\midrule
+\(N\)     &    28557   &    28557   &    28557   &    28557   \\
+mean\_depvar&    0.466   &    0.108   &    0.208   &    0.145   \\
+clusters  &  345.000   &  345.000   &  345.000   &  345.000   \\
+plots     & 1503.000   & 1503.000   & 1503.000   & 1503.000   \\
+\bottomrule
+\end{tabular}
+}
