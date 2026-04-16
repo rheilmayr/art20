@@ -7,14 +7,22 @@
 * Timestamps
 display "Started at: " c(current_date) " " c(current_time)
 
-*Install estout if not already installed
+*Install required libraries if not already installed
 *ssc install estout, replace
+*ssc install palettes, replace
+*ssc install colrspace, replace
+
+* Setting global style for plots
+graph set window fontface "Arial"
+graph set print fontface "Arial"
+global FONTSIZE_SMALL small
+global FONTSIZE_VSMALL vsmall
 
 global esttab_options starlevels(* 0.1 ** 0.05 *** 0.01) ///
 	   noconstant compress booktabs nonotes nonumbers	
 							 
 clear 
-cd "/Users/felipe/projects/art20" //REPLACE HERE FOR THE PATH TO THE REPOSITORY IN YOUR SYSTEM
+cd "/your/path/to/root/of/repo/goes/here" 
 
 use "data/Maindata_FTAI_2026.dta", clear
 xtset objectid year
@@ -863,6 +871,9 @@ log close
 preserve
 use  "data/census1997.dta", replace
 
+* count number of observations by ethnicity to report in table's notes
+table mapuche
+
 * collapse land cover use data
 collapse (sum) CultivosAP_superficie ForrajerasPR_superficie PraderasME_superficie PraderasNA_superficie Barbecho_superficie Infra_superficie TerrenoEO_superficie Plant_forestal Bosque_nativo SuperficieTotal, by(mapuche)
 
@@ -875,23 +886,50 @@ foreach var of varlist CultivosAP_superficie ForrajerasPR_superficie PraderasME_
 keep mapuche super* 
 reshape long super, i(mapuche) j(superficie) string
 
-* create new variables with clear labels
-replace superficie= "Crops" if superficie=="CultivosAP_superficie"
-replace superficie= "Foragers" if superficie=="ForrajerasPR_superficie"
-replace superficie= "Improved Graslands" if superficie=="PraderasME_superficie"
-replace superficie= "Natural Grasslands" if superficie=="PraderasNA_superficie"
-replace superficie= "Fallow" if superficie=="Barbecho_superficie"
-replace superficie= "Native Forest" if superficie=="Bosque_nativo"
-replace superficie= "Forest Plantations" if superficie=="Plant_forestal"
-replace superficie= "Infraestructure" if superficie=="Infra_superficie"
-replace superficie= "Barren Land" if superficie=="TerrenoEO_superficie"
+* create new variables with clear labels and order (land cover)
+gen superficie_order = .
+replace superficie_order = 1 if superficie=="CultivosAP_superficie"
+replace superficie_order = 2 if superficie=="Barbecho_superficie"
+replace superficie_order = 3 if superficie=="ForrajerasPR_superficie"
+replace superficie_order = 4 if superficie=="PraderasME_superficie"
+replace superficie_order = 5 if superficie=="PraderasNA_superficie"
+replace superficie_order = 6 if superficie=="Bosque_nativo"
+replace superficie_order = 7 if superficie=="Plant_forestal"
+replace superficie_order = 8 if superficie=="Infra_superficie"
+replace superficie_order = 9 if superficie=="TerrenoEO_superficie"
 
-gen     m = "M"  if mapuche==1
-replace m = "NM" if mapuche==0
+label define superficie_lbl ///
+    1 "Crops" ///
+    2 "Fallow" ///
+    3 "Foragers" ///	
+    4 "Improved Grasslands" ///
+    5 "Natural Grasslands" ///
+    6 "Natural Forest" ///
+    7 "Forest Plantations" ///
+    8 "Infrastructure" ///
+    9 "Barren Land"
 
+label values superficie_order superficie_lbl
+
+* create new variables with clear labels and order (ethnicity)
+gen     m = 1  if mapuche==1
+replace m = 0  if mapuche==0
+
+label define m_lbl ///
+    0 "NM" ///
+    1 "M"
+label values m m_lbl
+	
 * create plot
 colorpalette cividis
-graph hbar (mean) super, over(m) over(superficie) title ("Land Cover by Ethnicity") bar(1, color(`r(p3)')) 
+graph hbar (mean) super, ///
+      over(m, label(labsize($FONTSIZE_VSMALL))) ///
+	  over(superficie_order, label(labsize($FONTSIZE_VSMALL))) ///
+      title ("Land Cover by Ethnicity", size($FONTSIZE_SMALL)) ///
+	  ytitle("Percent of total land", size($FONTSIZE_SMALL)) ///
+	  ylabel(, labsize($FONTSIZE_VSMALL)) ///
+	  bar(1, color(`r(p3)')) 
+graph export "results/Fig_sup_census.pdf", replace
 restore
 
 ***********************************************************
