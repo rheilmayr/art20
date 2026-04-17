@@ -24,7 +24,7 @@ global esttab_options starlevels(* 0.1 ** 0.05 *** 0.01) ///
 clear 
 cd "/your/path/to/root/of/repo/goes/here" 
 
-use "data/Maindata_FTAI_2026.dta", clear
+use "C:\Users\black\Documents\GitHub\art20\data\Maindata_FTAI_2026.dta", clear
 xtset objectid year
 set varabbrev off
 
@@ -936,21 +936,30 @@ restore
 ** Figure A2: Cohort-specific event study for grasslands
 *********************************************************
 qui: xthdidregress aipw (grass lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-estat atetplot
+estat atetplot, title (, size($FONTSIZE_SMALL)) ///
+	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
+	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
+graph export "results/FigS2.png", replace
 
 
 ***********************************************************
 ** Figure A3: Cohort-specific event study for plantations
 *********************************************************
 qui: xthdidregress aipw (plantation lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-estat atetplot
+estat atetplot, title (, size($FONTSIZE_SMALL)) ///
+	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
+	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
+graph export "results/FigS3.png", replace
 
 
 ***********************************************************
 ** Figure A4: Cohort-specific event study for natural forests
 *********************************************************
 qui: xthdidregress aipw (natural lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-estat atetplot
+estat atetplot, title (, size($FONTSIZE_SMALL)) ///
+	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
+	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
+graph export "results/FigS4.png", replace
 
 * Timestamps
 display "Finished at: " c(current_date) " " c(current_time)
