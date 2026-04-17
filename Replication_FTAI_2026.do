@@ -24,7 +24,7 @@ global esttab_options starlevels(* 0.1 ** 0.05 *** 0.01) ///
 clear 
 cd "/your/path/to/root/of/repo/goes/here" 
 
-use "C:\Users\black\Documents\GitHub\art20\data\Maindata_FTAI_2026.dta", clear
+use "data\Maindata_FTAI_2026.dta", clear
 xtset objectid year
 set varabbrev off
 
@@ -939,7 +939,8 @@ qui: xthdidregress aipw (grass lclim_*) (FTAI), group(objectid) vce(cluster comm
 estat atetplot, title (, size($FONTSIZE_SMALL)) ///
 	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
 	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
-graph export "results/FigS2.png", replace
+graph export "results/FigS2.pdf", replace ///
+    width(7.0866) 
 
 
 ***********************************************************
@@ -949,7 +950,8 @@ qui: xthdidregress aipw (plantation lclim_*) (FTAI), group(objectid) vce(cluster
 estat atetplot, title (, size($FONTSIZE_SMALL)) ///
 	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
 	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
-graph export "results/FigS3.png", replace
+graph export "results/FigS3.pdf", replace ///
+    width(7.0866) 
 
 
 ***********************************************************
@@ -959,7 +961,8 @@ qui: xthdidregress aipw (natural lclim_*) (FTAI), group(objectid) vce(cluster co
 estat atetplot, title (, size($FONTSIZE_SMALL)) ///
 	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
 	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
-graph export "results/FigS4.png", replace
+graph export "results/FigS4.pdf", replace ///
+    width(7.0866) 
 
 * Timestamps
 display "Finished at: " c(current_date) " " c(current_time)
