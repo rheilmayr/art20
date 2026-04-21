@@ -964,7 +964,35 @@ estat atetplot, title (, size($FONTSIZE_SMALL)) ///
 graph export "results/FigS4.pdf", replace ///
     width(7.0866) 
 
+
+
+***********************************************************
+* Figure Results
+***********************************************************
+
+
+
+estimates clear
+foreach var in log_carbon biodiv trees_lowero trees_highero{  
+	qui: xthdidregress aipw (`var' lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
+	estat aggregation
+	estadd matrix b_a2= r(table)["b", 1 ...]
+	estadd matrix se_a2 = r(table)["se", 1 ...]
+	estadd matrix p_a2= r(table)["pvalue", 1 ...]
+	esttab using "results/CS_Table_Bio.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+    clear matrix
+}
+estimates clear
+foreach var in log_EVIgrass log_EVInatural log_EVIplants{  
+	qui: xthdidregress aipw (`var' lclim_*) (FTAI) if year>2003 & T_year>2004, group(objectid) vce(cluster community_ID) controlgroup(notyet)
+	estat aggregation
+	estadd matrix b_a2= r(table)["b", 1 ...]
+	estadd matrix se_a2 = r(table)["se", 1 ...]
+	estadd matrix p_a2= r(table)["pvalue", 1 ...]
+	esttab using "results/CS_Table_EVI.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+    clear matrix
+}
 * Timestamps
 display "Finished at: " c(current_date) " " c(current_time)
-
-
