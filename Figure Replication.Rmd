@@ -70,7 +70,7 @@ date_map <- ggplot() +
   ) +
   labs(
     fill = "Year",
-    title = "b)", caption = NULL
+    title = "b", caption = NULL
   ) +
   theme_fancy_map() +
   theme(
@@ -92,7 +92,7 @@ chile <- ggplot() +
     xlim = c(200000, 1300000)
   ) +
   theme_fancy_map() +
-  labs(title = "a)") +
+  labs(title = "a") +
   theme(
     plot.margin = margin(0, 2, 2, 0, unit = "cm"),
     plot.title = element_text(size = , hjust = 0.8, face = "bold"),
@@ -124,7 +124,7 @@ hist_legend <- ggplot(objectid, aes(x = A_O)) +
   labs(
     x = NULL,
     y = "Frequency",
-    title = "c)",
+    title = "c",
     caption = "Treatment by Year"
   ) +
   theme_minimal(base_family = "Arial", base_size = 7) +
