@@ -23,16 +23,9 @@ theme_fancy_map <- function() {
     )
 }
 
-bls_2016 <- read_excel(
-  "intermediate/objectid.xlsx",
-  col_names = c(
-    "objectid", "a_o"
-  )
-) |>
-drop_na(objectid)
 
-us_states_path <- "intermediate/shp/Compras_20_B_Julio_2024.shp"
-us_states <- st_read(us_states_path)
+objectid_path <- "intermediate/shp/Compras_20_B_Julio_2024.shp"
+objectid <- st_read(objectid_path)
 
 prov_path <- "intermediate/shp/Provincias.shp"
 prov <- st_read(prov_path)
@@ -47,10 +40,10 @@ reg <- reg2 %>%
   filter(as.numeric(codregion) %in% c(8, 9, 14))
 
 
-us_states <- us_states %>%
+objectid <- objectid %>%
   filter(as.numeric(COD_REGION) %in% c(08, 09, 10, 14) & !PROVINCIA %in% c("CHILOE", "LLANQUIHUE"))
   
-us_states$A_O <- as.numeric(as.character(us_states$A_O))
+objectid$A_O <- as.numeric(as.character(objectid$A_O))
 
 
 theme_set(
@@ -65,14 +58,14 @@ text_override <- theme(
   legend.title = element_text(size = 7)
 )
 
-unemp_map2 <- unemp_map <- ggplot() +
+date_map <- ggplot() +
    geom_sf(data = reg, fill = "white", color = "gray") +
    geom_sf(data = prov, fill = "white", color = "gray") +
-  geom_sf(data = us_states, aes(fill = A_O), color = NA) +
+  geom_sf(data = objectid, aes(fill = A_O), color = NA) +
   coord_sf(crs = st_crs("EPSG:32718")) +
   scale_fill_gradientn(
     colours = c("yellow", "orange", "red"), 
-    limits = c(min(us_states$A_O), max(us_states$A_O)),
+    limits = c(min(objectid$A_O), max(objectid$A_O)),
     guide = "none"
   ) +
   labs(
@@ -90,7 +83,7 @@ unemp_map2 <- unemp_map <- ggplot() +
   ) +
   text_override
 
-chile2 <- ggplot() +
+chile <- ggplot() +
   geom_sf(data = reg2, fill = "white", color = "gray") +
   geom_sf(data = reg, fill = "black", color = "gray", alpha = 0.8) +
   geom_sf(data = prov, fill = "black", color = "gray", alpha = 0.8) +
@@ -109,7 +102,7 @@ chile2 <- ggplot() +
   ) +
   text_override
 
-hist_legend2 <- ggplot(us_states, aes(x = A_O)) +  
+hist_legend <- ggplot(objectid, aes(x = A_O)) +  
   annotate(
     "rect",
     xmin = 2002, xmax = 2022,
@@ -125,8 +118,8 @@ hist_legend2 <- ggplot(us_states, aes(x = A_O)) +
   ) +
   scale_fill_gradient(low = "yellow", high = "red", guide = "none") +
   scale_x_continuous(
-    limits = c(min(us_states$A_O, na.rm = TRUE), 2022),
-    breaks = seq(min(us_states$A_O, na.rm = TRUE), 2022, by = 5)
+    limits = c(min(objectid$A_O, na.rm = TRUE), 2022),
+    breaks = seq(min(objectid$A_O, na.rm = TRUE), 2022, by = 5)
   ) +
   labs(
     x = NULL,
@@ -144,9 +137,9 @@ hist_legend2 <- ggplot(us_states, aes(x = A_O)) +
   text_override
 
 combined_map_hist <- ggdraw() +
-  draw_plot(chile2, x = -0.2, y = 0, width = 1, height = 1) + 
-  draw_plot(hist_legend2, x = 0.5, y = 0.1, width = 0.4, height = 0.3) +
-  draw_plot(unemp_map2, x = 0.612, y = 0.228, width = 0.4, height = 0.9)
+  draw_plot(chile, x = -0.2, y = 0, width = 1, height = 1) + 
+  draw_plot(hist_legend, x = 0.5, y = 0.1, width = 0.4, height = 0.3) +
+  draw_plot(date_map, x = 0.612, y = 0.228, width = 0.4, height = 0.9)
 
 ggsave(
   filename = "results/FTAI_map.pdf",
@@ -156,7 +149,7 @@ ggsave(
   height = 210,
   units = "mm"
 )
-
+combined_map_hist
 
 ##############################
 #Land Cover Graph
