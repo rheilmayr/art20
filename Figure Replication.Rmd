@@ -24,9 +24,8 @@ theme_fancy_map <- function() {
 }
 
 
-objectid_path <- "intermediate/shp/Compras_20_B_Julio_2024.shp"
+objectid_path <- "intermediate/shp/compras_de_tierras_art__20b__act__abril_2026_.shp"
 objectid <- st_read(objectid_path)
-
 prov_path <- "intermediate/shp/Provincias.shp"
 prov <- st_read(prov_path)
 
@@ -41,7 +40,8 @@ reg <- reg2 %>%
 
 
 objectid <- objectid %>%
-  filter(as.numeric(COD_REGION) %in% c(08, 09, 10, 14) & !PROVINCIA %in% c("CHILOE", "LLANQUIHUE"))
+  filter(as.numeric(COD_REGION) %in% c(08, 09, 10, 14) & !PROVINCIA %in% c("CHILOE", "LLANQUIHUE")) %>%
+  filter(A_O <2020)
   
 objectid$A_O <- as.numeric(as.character(objectid$A_O))
 
@@ -139,7 +139,7 @@ hist_legend <- ggplot(objectid, aes(x = A_O)) +
 combined_map_hist <- ggdraw() +
   draw_plot(chile, x = -0.2, y = 0, width = 1, height = 1) + 
   draw_plot(hist_legend, x = 0.5, y = 0.1, width = 0.4, height = 0.3) +
-  draw_plot(date_map, x = 0.612, y = 0.228, width = 0.4, height = 0.9)
+  draw_plot(date_map, x = 0.612, y = 0.259, width = 0.4, height = 0.9)
 
 ggsave(
   filename = "results/FTAI_map.pdf",
@@ -149,7 +149,6 @@ ggsave(
   height = 210,
   units = "mm"
 )
-combined_map_hist
 
 ##############################
 #Land Cover Graph
