@@ -1,0 +1,31 @@
+--------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/fj/research/art20/timestamp.log
+  log type:  text
+ opened on:   1 May 2026, 12:23:56
+
+. display "Started at: " c(current_date) " " c(current_time)
+Started at:  1 May 2026 12:23:56
+
+. log close
+      name:  <unnamed>
+       log:  /Users/fj/research/art20/timestamp.log
+  log type:  text
+ closed on:   1 May 2026, 12:23:56
+--------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/fj/research/art20/timestamp.log
+  log type:  text
+ opened on:   1 May 2026, 12:39:50
+
+. * Timestamp close
+. display "Finished at: " c(current_date) " " c(current_time)
+Finished at:  1 May 2026 12:39:50
+
+. log close
+      name:  <unnamed>
+       log:  /Users/fj/research/art20/timestamp.log
+  log type:  text
+ closed on:   1 May 2026, 12:39:50
+--------------------------------------------------------------------------------------------------------------------------------------

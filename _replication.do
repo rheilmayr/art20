@@ -4,8 +4,10 @@
 
 *Use this do file with the Maindata_FTAI_2026.dta dataset
 *************************************************************
-* Timestamps
+* Timestampopen
+log using "timestamp.log" 
 display "Started at: " c(current_date) " " c(current_time)
+log close
 
 *Install required libraries if not already installed
 *ssc install estout, replace
@@ -22,13 +24,17 @@ global esttab_options starlevels(* 0.1 ** 0.05 *** 0.01) ///
 	   noconstant compress booktabs nonotes nonumbers	
 							 
 clear 
-cd "/your/path/to/root/of/repo/goes/here" 
+*cd "/your/path/to/root/of/repo/goes/here" 
+cd "/Users/fj/research/art20"
 
-use "data\Maindata_FTAI_2026.dta", clear
+use "data/Maindata_FTAI_2026.dta", clear
 xtset objectid year
 set varabbrev off
 
-
+//========================================================
+// Main Results
+//========================================================
+{
 ***********************************************************
 * Results in Table 1
 ***********************************************************
@@ -43,7 +49,7 @@ foreach var in grass crop natural plantation{
 	estadd matrix b_a2= r(table)["b", 1 ...]
 	estadd matrix se_a2 = r(table)["se", 1 ...]
 	estadd matrix p_a2= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_Table1.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	esttab using "results/tables/M1_CS.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
     clear matrix
 }
@@ -60,7 +66,7 @@ foreach var of varlist grass crop natural plantation{
 	est sto twfeT1_`var'
 }
 
-esttab twfeT1_* using "results/TWFE_Table1.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+esttab twfeT1_* using "results/tables/M1_TWFE.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
 
 
 
@@ -77,7 +83,7 @@ foreach var in base_Grass_grass base_Grass_crop base_Grass_natural base_Grass_pl
 	estadd matrix b_a= r(table)["b", 1 ...]
 	estadd matrix se_a = r(table)["se", 1 ...]
 	estadd matrix p_a= r(table)["pvalue", 1 ...] 
-	esttab using "results/CS_Table2_grass.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	esttab using "results/tables/M2_grass.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
 	clear matrix
 }
@@ -91,7 +97,7 @@ foreach var in base_Crop_grass base_Crop_crop base_Crop_natural base_Crop_planta
 	estadd matrix b_a= r(table)["b", 1 ...]
 	estadd matrix se_a = r(table)["se", 1 ...]
 	estadd matrix p_a= r(table)["pvalue", 1 ...] 
-	esttab using "results/CS_Table2_crop.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	esttab using "results/tables/M2_crop.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
 	clear matrix
 }
@@ -105,7 +111,7 @@ foreach var in base_Natural_grass base_Natural_crop base_Natural_natural base_Na
 	estadd matrix b_a= r(table)["b", 1 ...]
 	estadd matrix se_a = r(table)["se", 1 ...]
 	estadd matrix p_a= r(table)["pvalue", 1 ...] 
-	esttab using "results/CS_Table2_natural.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	esttab using "results/tables/M2_natural.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
 	clear matrix
 }
@@ -120,7 +126,7 @@ foreach var in base_Plants_grass base_Plants_crop base_Plants_natural base_Plant
 	estadd matrix b_a= r(table)["b", 1 ...]
 	estadd matrix se_a = r(table)["se", 1 ...]
 	estadd matrix p_a= r(table)["pvalue", 1 ...] 
-	esttab using "results/CS_Table2_plantation.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	esttab using "results/tables/M2_plantation.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
 	clear matrix
 }
@@ -156,7 +162,7 @@ estadd scalar mean_depvar= r(mean)
 est sto twfe_T3_`var'
 }
 
-esttab twfe_T3_* using "results/TWFE_Table3.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI_reservation FTAI_close FTAI_far) se b(%9.3f) se(%9.3f)
+esttab twfe_T3_* using "results/tables/M3.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI_reservation FTAI_close FTAI_far) se b(%9.3f) se(%9.3f)
 
 
 ***********************************************************
@@ -171,13 +177,12 @@ foreach var in grass crop natural plantation{
 	qui: xthdidregress aipw (`var' lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
 
 	estat aggregation, dynamic(-10/10) graph(xlabel(,labsize(normal)) xline(0) legend(off) title("") ytitle("Treatment effect", size(vlarge)) xtitle("Time since restitution (years)", size(huge)) yscale(range(-0.1 0.1)) ylabel(-0.1(0.02)0.1) )
-	graph export "results/Fig2_`var'.png", replace
 	
 	*DYNAMIC RESULTS
 	estadd matrix b_a= r(table)["b", 1 ...]
 	estadd matrix se_a = r(table)["se", 1 ...]
 	estadd matrix p_a= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_dyn_Fig2.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	esttab using "inter/CS_dyn_Fig2.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb  append
 }
 
@@ -188,13 +193,12 @@ foreach var in log_carbon biodiv trees_highero trees_lowero{
 	qui: xthdidregress aipw (`var' lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
 
 	estat aggregation, dynamic(-10/10) graph(xlabel(,labsize(normal)) xline(0) legend(off) title("") ytitle("Treatment effect", size(vlarge)) xtitle("Time since restitution (years)", size(huge)) yscale(range(-0.1 0.1)) ylabel(-0.1(0.02)0.1) )
-	graph export "results/Fig3_`var'.png", replace
 	
 	*DYNAMIC RESULTS
 	estadd matrix b_a= r(table)["b", 1 ...]
 	estadd matrix se_a = r(table)["se", 1 ...]
 	estadd matrix p_a= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_dyn_Fig3.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	esttab using "inter/CS_dyn_Fig3.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb  append
 }
 
@@ -205,71 +209,28 @@ foreach var in log_EVIgrass log_EVIplants log_EVInatural{
 	qui: xthdidregress aipw (`var' lclim_*) (FTAI) if year>2003 & T_year>2004, group(objectid) vce(cluster community_ID) controlgroup(notyet)
 	
 	estat aggregation, dynamic(-10/10) graph(xlabel(,labsize(normal)) xline(0) legend(off) title("") ytitle("Treatment effect", size(vlarge)) xtitle("Time since restitution (years)", size(huge)) yscale(range(-0.1 0.1)) ylabel(-0.1(0.02)0.1) )
-	graph export "results/Fig4_`var'.png", replace
 	
 	*DYNAMIC RESULTS
 	estadd matrix b_a= r(table)["b", 1 ...]
 	estadd matrix se_a = r(table)["se", 1 ...]
 	estadd matrix p_a= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_dyn_Fig4.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	esttab using "inter/CS_dyn_Fig4.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb  append
+}
 }
 
 
-
-
-
-***************************************************************************
-* Appendix tables
-***************************************************************************
-
-
+//========================================================
+// Supplemetary results: Results not stored in tables (log)
+//========================================================
+{
 log using "results/No_Table_Results_2026.log" /*for results not stored as table*/
 
-***********************************************************
-** Table A1: Descriptive statistics for land use
-***********************************************************
-
-* Main sample
-sum grass crop natural plantation  
-
-* 2001 and 2009
-sum grass crop natural plantation if year==2001
-sum grass crop natural plantation if year==2019
-
-* Before and after treatment
-sum grass crop natural plantation if t==-1
-sum grass crop natural plantation if t==3
-sum grass crop natural plantation if t==6
 
 ***********************************************************
-** Table A2: Descriptive statistics for other variables
+** Table S1: Land cover transitions from before to after treatment
 ***********************************************************
-
-**Upper panel (time-variant outcomes)
-
-* Main sample
-sum log_carbon biodiv trees_highero trees_lowero 
-sum log_EVI* if year>2003 & T_year>2004 
-
-* First and last year
-sum log_carbon biodiv trees_highero trees_lowero if year==2001
-sum log_EVI* if year==2004
-sum log_carbon biodiv trees_highero trees_lowero log_EVI* if year==2019
-
-* Before and after treatment
-sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==-1
-sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==3
-sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==6
-
-**Lower panel (time-invariant variables)
-
-sum d_reservation distance families pj conflict90_plot_2km conflict90_pj_2km if year==2001, d /*The descriptives here are the same in each year*/
-
-***********************************************************
-** Table A3: Land cover transitions from before to after treatment
-***********************************************************
-// Table A3, first two columns
+// Table S1, first two columns
 preserve
 use  "data/lc_transitions.dta", clear
 
@@ -303,7 +264,7 @@ restore
 
 
 preserve
-// Table A3, rest of columns
+// Table S1, rest of columns
 use  "data/lc_transitions.dta", clear
 
 *Keep only pixels with no null data in both periods
@@ -327,17 +288,519 @@ restore
 
 
 ***********************************************************
-** Table A4: Years since treatment 
+** Table S2: Years since treatment 
 ***********************************************************
 
 cap gen t2= year- T_year
 tab t2
 * The % of treated in the sample described in Table A3 referes to the number of treated properties between 2001-2019 (a total of 1,504 properties)
 
+***********************************************************
+** Table S12: Bacon decomposition
+*********************************************************** 
+
+foreach var in grass crop natural plantation{
+xtdidregress  (`var') (FTAI), group(objectid) time(year) vce(cluster community_ID)
+estat bdecomp, summaryonly
+}
+log close
+
+***********************************************************
+** Table S13: Descriptive statistics for land use
+***********************************************************
+
+* Main sample
+sum grass crop natural plantation  
+
+* 2001 and 2019
+sum grass crop natural plantation if year==2001
+sum grass crop natural plantation if year==2019
+
+* Before and after treatment
+sum grass crop natural plantation if t==-1
+sum grass crop natural plantation if t==3
+sum grass crop natural plantation if t==6
+
+***********************************************************
+** Table S14: Descriptive statistics for other variables
+***********************************************************
+
+**Upper panel (time-variant outcomes)
+
+* Main sample
+sum log_carbon biodiv trees_highero trees_lowero 
+sum log_EVI* if year>2003 & T_year>2004 
+
+* First and last year
+sum log_carbon biodiv trees_highero trees_lowero if year==2001
+sum log_EVI* if year==2004
+sum log_carbon biodiv trees_highero trees_lowero log_EVI* if year==2019
+
+* Before and after treatment
+sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==-1
+sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==3
+sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==6
+
+**Lower panel (time-invariant variables)
+
+sum d_reservation distance families pj conflict90_plot_2km conflict90_pj_2km if year==2001, d /*The descriptives here are the same in each year*/
+}
+
+
+//========================================================
+// Supplemetary results: Results stored in tables
+//========================================================
+{
+
+***********************************************************
+*** Table S3: Spillover effects (1km)
+***********************************************************
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+qui: xthdidregress aipw (`var'_1km lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
+
+	*AGGREGATED RESULTS 
+	estat aggregation
+	estadd matrix b_a= r(table)["b", 1 ...]
+	estadd matrix se_a = r(table)["se", 1 ...]
+	estadd matrix p_a= r(table)["pvalue", 1 ...] 
+	esttab using "results/tables/S3_CS.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	eqlab(none) mlab(`var'_1km, lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
+	clear matrix
+}
+
+foreach var of varlist grass crop natural plantation{
+	xtreg `var'_1km FTAI i.year lclim_*, fe vce(cluster community_ID)
+	estadd scalar clusters= e(N_clust)
+	estadd scalar plots= e(N_g)
+	sum `var'_1km if e(sample)
+	estadd scalar mean_depvar= r(mean)
+	sum `var'_1km if e(sample) & year==2001
+	estadd scalar mean_2001= r(mean)
+	sum `var'_1km if e(sample) & year==2019
+	estadd scalar mean_2019= r(mean)
+	est sto twfeA6_`var'
+}
+
+esttab twfeA6_* using "results/tables/S3_TWFE.tex", $esttab_options scalars(mean_depvar mean_2001 mean_2019 clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
 
 
 ***********************************************************
-*** Table A5: Plot-level characteristics by cohorts of treatment
+*** Table S4: First restitution by each community
+***********************************************************
+
+bysort community_ID (year): egen T_year_min = min(T_year)
+gen T_first=1
+replace T_first=0 if T_year > T_year_min + 1
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+qui: xthdidregress aipw (`var' lclim_*) (FTAI) if T_first==1, group(objectid) vce(cluster community_ID) controlgroup(notyet)
+
+	*AGGREGATED RESULTS 
+	estat aggregation
+	estadd matrix b_a= r(table)["b", 1 ...]
+	estadd matrix se_a = r(table)["se", 1 ...]
+	estadd matrix p_a= r(table)["pvalue", 1 ...] 
+	esttab using "results/tables/S4_CS.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	eqlab(none) mlab(`var'_1km, lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
+	clear matrix
+}
+
+foreach var of varlist grass crop natural plantation{
+	xtreg `var' FTAI i.year lclim_*  if T_first==1, fe vce(cluster community_ID)
+	estadd scalar clusters= e(N_clust)
+	estadd scalar plots= e(N_g)
+	sum `var'_1km if e(sample)
+	estadd scalar mean_depvar= r(mean)
+	est sto twfeA7_`var'
+}
+
+esttab twfeA7_* using "results/tables/S4_CS.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+***********************************************************
+*** Table S5: Robustness of main land use change results to alternate controls
+***********************************************************
+
+***Panel A 
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+	xtreg `var' FTAI  i.year lclim_* escolaridad - lny, fe vce(cluster community_ID)
+	estadd scalar clusters= e(N_clust)
+	estadd scalar plots= e(N_g)
+	sum `var' if e(sample)
+	estadd scalar mean_depvar= r(mean)
+	est sto twfecasen_`var'
+}
+esttab twfecasen_* using "results/tables/S5_A.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+***Panel B
+
+estimates clear
+foreach var in grass crop natural plantation{  
+	qui: xthdidregress aipw (`var' lclim_* escolaridad - lny) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
+	
+	estat aggregation
+	estadd matrix b_a2= r(table)["b", 1 ...]
+	estadd matrix se_a2 = r(table)["se", 1 ...]
+	estadd matrix p_a2= r(table)["pvalue", 1 ...]
+	esttab using "results/tables/S5_B.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+    clear matrix
+}
+
+
+***Panel C
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+	xtreg `var' FTAI  i.year bin_* lclim_rain_* SDrain lag*, fe vce(cluster community_ID)
+	estadd scalar clusters= e(N_clust)
+	estadd scalar plots= e(N_g)
+	sum `var' if e(sample)
+	estadd scalar mean_depvar= r(mean)
+	est sto twfeclim2_`var'
+}
+esttab twfeclim2_* using "results/tables/S5_C.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+***Panel D
+
+estimates clear
+foreach var in grass crop natural plantation{  
+	qui: xthdidregress aipw (`var'  bin_* lclim_rain_*  SDrain lag*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
+	
+	estat aggregation
+	estadd matrix b_a2= r(table)["b", 1 ...]
+	estadd matrix se_a2 = r(table)["se", 1 ...]
+	estadd matrix p_a2= r(table)["pvalue", 1 ...]
+	esttab using "results/tables/S5_D.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+    clear matrix
+}
+
+
+***Panel E
+gen ldist_capital = log(distance_capital)
+gen ldist_ruta5   = log(distance_ruta5)
+estimates clear
+foreach var in grass crop natural plantation{  
+	qui: xthdidregress aipw (`var' lclim_* wheaty ldist_capital ldist_ruta5) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
+	
+	estat aggregation
+	estadd matrix b_a2= r(table)["b", 1 ...]
+	estadd matrix se_a2 = r(table)["se", 1 ...]
+	estadd matrix p_a2= r(table)["pvalue", 1 ...]
+	esttab using "results/tables/S5_E.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+    clear matrix
+}
+
+
+***********************************************************
+*** Table S6: Results using original data sources
+***********************************************************
+
+estimates clear
+foreach var of varlist forest_all plantation_mapbiomas natural_mapbiomas mosaic_mapbiomas{
+qui: xthdidregress aipw (`var' lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
+
+	*AGGREGATED RESULTS 
+	estat aggregation
+	estadd matrix b_a= r(table)["b", 1 ...]
+	estadd matrix se_a = r(table)["se", 1 ...]
+	estadd matrix p_a= r(table)["pvalue", 1 ...] 
+	esttab using "results/tables/S6_CS.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
+	clear matrix
+}
+
+foreach var of varlist forest_all plantation_mapbiomas natural_mapbiomas mosaic_mapbiomas{
+	xtreg `var' FTAI i.year lclim_*, fe vce(cluster community_ID)
+	estadd scalar clusters= e(N_clust)
+	estadd scalar plots= e(N_g)
+	sum `var' if e(sample)
+	estadd scalar mean_depvar= r(mean)
+	est sto twfeA9_`var'
+}
+
+esttab twfeA9_* using "results/tables/S6_TWFE.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+***********************************************************
+*** Table S7: Short-term effects: TWFE only for t+5
+***********************************************************
+
+***Panel A 
+
+gen sample_t5=0
+replace sample_t5=1 if t<=5
+replace sample_t5=1 if T_year>2019
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var'  FTAI  i.year lclim_* if sample_t5==1, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfe_t5_`var'
+}
+
+esttab twfe_t5_* using "results/tables/S7_A.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI) se b(%9.3f) se(%9.3f)
+
+
+***Panel B
+bysort objectid:egen yy=max(t)
+gen sample_t5_balanced=0
+replace sample_t5_balanced=1 if t<=5
+replace sample_t5_balanced=0 if yy<5
+drop yy
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var'  FTAI  i.year lclim_* if sample_t5_balanced==1, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfe_t5b_`var'
+}
+
+esttab twfe_t5b_* using "results/tables/S7_B.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI) se b(%9.3f) se(%9.3f)
+
+
+
+***********************************************************
+*** Table S8: Aggregated results for other variables 
+***********************************************************
+
+* CS estimates in the upper panel 
+
+estimates clear
+foreach var in log_carbon biodiv trees_highero trees_lowero{
+    
+	qui: xthdidregress aipw (`var' lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
+	estat aggregation
+	estadd matrix b_a2= r(table)["b", 1 ...]
+	estadd matrix se_a2 = r(table)["se", 1 ...]
+	estadd matrix p_a2= r(table)["pvalue", 1 ...]
+	esttab using "results/tables/S8_CS.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+    clear matrix
+}
+
+foreach var in log_EVIgrass log_EVIcrop log_EVInatural log_EVIplants{
+	qui: xthdidregress aipw (`var' lclim_*) (FTAI) if year>2003 & T_year>2004, group(objectid) vce(cluster community_ID) controlgroup(notyet)
+	estat aggregation
+	estadd matrix b_a2= r(table)["b", 1 ...]
+	estadd matrix se_a2 = r(table)["se", 1 ...]
+	estadd matrix p_a2= r(table)["pvalue", 1 ...]
+	esttab using "results/tables/S8_CS.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+    clear matrix
+}
+
+* TWFE estimates in the lower panel 
+
+estimates clear
+foreach var of varlist log_carbon biodiv trees_highero trees_lowero{
+	xtreg `var' FTAI i.year lclim_*, fe vce(cluster community_ID)
+	estadd scalar clusters= e(N_clust)
+	estadd scalar plots= e(N_g)
+	sum `var' if e(sample)
+	estadd scalar mean_depvar= r(mean)
+	est sto twfeA11_`var'
+}
+
+foreach var of varlist log_EVI*{
+	xtreg `var' FTAI i.year lclim_*  if year>2003 & T_year>2004 , fe vce(cluster community_ID)
+	estadd scalar clusters= e(N_clust)
+	estadd scalar plots= e(N_g)
+	sum `var' if e(sample)
+	estadd scalar mean_depvar= r(mean)
+	est sto twfeA11_`var'
+}
+
+esttab twfeA11_* using "results/tables/S8_TWFE.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+***********************************************************
+*** Table S9: Heterogeneous effects by predominant land use at baseline (2001)
+***********************************************************
+
+egen tt=rowmax(grass crop natural plantation)  if year==2001
+foreach var of varlist grass crop natural plantation{
+	gen T_basemax`var'=0
+    replace T_basemax`var'=1 if `var'==tt
+	bysort objectid: egen tt2=max(T_basemax`var')
+	replace T_basemax`var'=1 if T_basemax`var'!=tt2
+	gen FTAI_basemax_`var'=FTAI*T_basemax`var'
+	drop tt2
+}
+drop tt
+
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var'  FTAI_basemax* i.year lclim_*, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfe_base_`var'
+}
+
+esttab twfe_base_* using "results/tables/S9.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+
+***********************************************************
+*** Table S10: Heterogeneous effects by erodability
+***********************************************************
+
+** Panel A
+
+estimates clear
+
+foreach var of varlist grass crop natural plantation{
+xtreg `var'_lowero FTAI i.year lclim_*, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfel_`var'
+}
+
+esttab twfel_* using "results/tables/S10_A.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+** Panel B
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var'_highero FTAI i.year lclim_*, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfeh_`var'
+}
+
+esttab twfeh_* using "results/tables/S10_B.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+
+***********************************************************
+*** Table S11: Heterogeneous effects by community characteristics and conflict
+***********************************************************
+
+cap gen log_distance=log(distance)
+cap gen FTAI_ldist=log_distance*FTAI
+cap gen log_families=log(families)
+cap gen FTAI_lfam=log_families*FTAI
+
+
+** Panel A
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var' FTAI FTAI_ldist i.year lclim_*, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfed_`var'
+}
+
+esttab twfed_* using "results/tables/S11_A.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+** Panel B
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var' FTAI FTAI_lfam i.year lclim_*, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfef_`var'
+}
+
+esttab twfef_* using "results/tables/S11_B.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+** Panel C
+
+bysort cod_region: egen temp=median(pj)
+cap gen old_community=0 if pj!=.
+replace old_community=1 if pj<temp
+drop temp
+cap gen new_community=old_community+1
+replace new_community=0 if new_community==2
+cap gen FTAI_old=FTAI*old_community
+cap gen FTAI_new=FTAI*new_community
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var'  FTAI_old FTAI_new i.year lclim_*, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfe_old_`var'
+}
+
+esttab twfe_old_* using "results/tables/S11_C.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+** Panel D
+
+foreach buffer in 500m 1km 2km{
+	cap gen FTAI_conflict90_plot_`buffer'=FTAI*conflict90_plot_`buffer'
+}
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var'  FTAI  FTAI_conflict90_plot_2km i.year lclim_*, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfe_confl_`var'
+
+}
+
+esttab twfe_confl_* using "results/tables/S11_D.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+** Panel E
+
+foreach buffer in 500m 1km 2km{
+	cap gen FTAI_conflict90_pj_`buffer'=FTAI*conflict90_pj_`buffer'
+}
+
+estimates clear
+foreach var of varlist grass crop natural plantation{
+xtreg `var'  FTAI  FTAI_conflict90_pj_2km  i.year lclim_*, fe vce(cluster community_ID)
+estadd scalar clusters= e(N_clust)
+estadd scalar plots= e(N_g)
+sum `var' if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto twfe_conflpj_`var'
+
+}
+
+esttab twfe_conflpj_* using "results/tables/S11_E.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI*) se b(%9.3f) se(%9.3f)
+
+
+***********************************************************
+*** Table S15: Plot-level characteristics by cohorts of treatment
 ***********************************************************
 
 * by presidential periods
@@ -371,7 +834,7 @@ foreach var of varlist grass crop natural plantation d_reservation conflict90_pl
 replace `var'=`var'*100	
 }
 
-dtable  grass crop natural plantation area families total_area density plots_purchase d_reservation distance distance_capital distance_ruta5 pj conflict90_plot_2km conflict90_pj_2km if  year==2001, export("results/decstats_cohort.tex", replace) continuous(, statistics(mean sd)) by(cohort, nototals) nformat(%9.1f)
+dtable  grass crop natural plantation area families total_area density plots_purchase d_reservation distance distance_capital distance_ruta5 pj conflict90_plot_2km conflict90_pj_2km if  year==2001, export("results/tables/S15.tex", replace) continuous(, statistics(mean sd)) by(cohort, nototals) nformat(%9.1f)
 
 foreach var of varlist grass crop natural plantation d_reservation conflict90_plot_2km conflict90_pj_2km {
 replace `var'=`var'/100	
@@ -379,474 +842,22 @@ replace `var'=`var'/100
 
 
 ***********************************************************
-*** Table A6: Spillover effects (1km)
-***********************************************************
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-qui: xthdidregress aipw (`var'_1km lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-
-	*AGGREGATED RESULTS 
-	estat aggregation
-	estadd matrix b_a= r(table)["b", 1 ...]
-	estadd matrix se_a = r(table)["se", 1 ...]
-	estadd matrix p_a= r(table)["pvalue", 1 ...] 
-	esttab using "results/CS_appendixA6.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
-	eqlab(none) mlab(`var'_1km, lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
-	clear matrix
-}
-
-foreach var of varlist grass crop natural plantation{
-	xtreg `var'_1km FTAI i.year lclim_*, fe vce(cluster community_ID)
-	estadd scalar clusters= e(N_clust)
-	estadd scalar plots= e(N_g)
-	sum `var'_1km if e(sample)
-	estadd scalar mean_depvar= r(mean)
-	sum `var'_1km if e(sample) & year==2001
-	estadd scalar mean_2001= r(mean)
-	sum `var'_1km if e(sample) & year==2019
-	estadd scalar mean_2019= r(mean)
-	est sto twfeA6_`var'
-}
-
-esttab twfeA6_* using "results/TWFE_appendixA6.tex", $esttab_options scalars(mean_depvar mean_2001 mean_2019 clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-***********************************************************
-*** Table A7: First restitution by each community
-***********************************************************
-
-bysort community_ID (year): egen T_year_min = min(T_year)
-gen T_first=1
-replace T_first=0 if T_year > T_year_min + 1
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-qui: xthdidregress aipw (`var' lclim_*) (FTAI) if T_first==1, group(objectid) vce(cluster community_ID) controlgroup(notyet)
-
-	*AGGREGATED RESULTS 
-	estat aggregation
-	estadd matrix b_a= r(table)["b", 1 ...]
-	estadd matrix se_a = r(table)["se", 1 ...]
-	estadd matrix p_a= r(table)["pvalue", 1 ...] 
-	esttab using "results/CS_appendixA7.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
-	eqlab(none) mlab(`var'_1km, lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
-	clear matrix
-}
-
-foreach var of varlist grass crop natural plantation{
-	xtreg `var' FTAI i.year lclim_*  if T_first==1, fe vce(cluster community_ID)
-	estadd scalar clusters= e(N_clust)
-	estadd scalar plots= e(N_g)
-	sum `var'_1km if e(sample)
-	estadd scalar mean_depvar= r(mean)
-	est sto twfeA7_`var'
-}
-
-esttab twfeA7_* using "results/TWFE_appendixA7.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-***********************************************************
-*** Table A8: Robustness of main land use change results to alternate controls
-***********************************************************
-
-***Panel A 
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-	xtreg `var' FTAI  i.year lclim_* escolaridad - lny, fe vce(cluster community_ID)
-	estadd scalar clusters= e(N_clust)
-	estadd scalar plots= e(N_g)
-	sum `var' if e(sample)
-	estadd scalar mean_depvar= r(mean)
-	est sto twfecasen_`var'
-}
-esttab twfecasen_* using "results/TWFE_appendixA8_A.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-***Panel B
-
-estimates clear
-foreach var in grass crop natural plantation{  
-	qui: xthdidregress aipw (`var' lclim_* escolaridad - lny) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-	
-	estat aggregation
-	estadd matrix b_a2= r(table)["b", 1 ...]
-	estadd matrix se_a2 = r(table)["se", 1 ...]
-	estadd matrix p_a2= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_appendixA8_B.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
-	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
-    clear matrix
-}
-
-
-***Panel C
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-	xtreg `var' FTAI  i.year bin_* lclim_rain_* SDrain lag*, fe vce(cluster community_ID)
-	estadd scalar clusters= e(N_clust)
-	estadd scalar plots= e(N_g)
-	sum `var' if e(sample)
-	estadd scalar mean_depvar= r(mean)
-	est sto twfeclim2_`var'
-}
-esttab twfeclim2_* using "results/TWFE_appendixA8_C.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-***Panel D
-
-estimates clear
-foreach var in grass crop natural plantation{  
-	qui: xthdidregress aipw (`var'  bin_* lclim_rain_*  SDrain lag*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-	
-	estat aggregation
-	estadd matrix b_a2= r(table)["b", 1 ...]
-	estadd matrix se_a2 = r(table)["se", 1 ...]
-	estadd matrix p_a2= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_appendixA8_D.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
-	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
-    clear matrix
-}
-
-
-***Panel E
-gen ldist_capital = log(distance_capital)
-gen ldist_ruta5   = log(distance_ruta5)
-estimates clear
-foreach var in grass crop natural plantation{  
-	qui: xthdidregress aipw (`var' lclim_* wheaty ldist_capital ldist_ruta5) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-	
-	estat aggregation
-	estadd matrix b_a2= r(table)["b", 1 ...]
-	estadd matrix se_a2 = r(table)["se", 1 ...]
-	estadd matrix p_a2= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_appendixA8_E.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
-	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
-    clear matrix
-}
-
-
-***********************************************************
-*** Table A9: Results using original data sources
-***********************************************************
-
-estimates clear
-foreach var of varlist forest_all plantation_mapbiomas natural_mapbiomas mosaic_mapbiomas{
-qui: xthdidregress aipw (`var' lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-
-	*AGGREGATED RESULTS 
-	estat aggregation
-	estadd matrix b_a= r(table)["b", 1 ...]
-	estadd matrix se_a = r(table)["se", 1 ...]
-	estadd matrix p_a= r(table)["pvalue", 1 ...] 
-	esttab using "results/CS_appendixA9.tex", $esttab_options cells(b_a(fmt(3) star pval(p_a)) se_a(fmt(3) par)) ///
-	eqlab(none) mlab(`var', lhs(Cohort)) varlabels(r1vs0.FTAI"11") collab(none) nonumb append 
-	clear matrix
-}
-
-foreach var of varlist forest_all plantation_mapbiomas natural_mapbiomas mosaic_mapbiomas{
-	xtreg `var' FTAI i.year lclim_*, fe vce(cluster community_ID)
-	estadd scalar clusters= e(N_clust)
-	estadd scalar plots= e(N_g)
-	sum `var' if e(sample)
-	estadd scalar mean_depvar= r(mean)
-	est sto twfeA9_`var'
-}
-
-esttab twfeA9_* using "results/TWFE_appendixA9.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-***********************************************************
-*** Table A10: Short-term effects: TWFE only for t+5
-***********************************************************
-
-***Panel A 
-
-gen sample_t5=0
-replace sample_t5=1 if t<=5
-replace sample_t5=1 if T_year>2019
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var'  FTAI  i.year lclim_* if sample_t5==1, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfe_t5_`var'
-}
-
-esttab twfe_t5_* using "results/TWFE_appendixA10_A.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI) se b(%9.3f) se(%9.3f)
-
-
-***Panel B
-bysort objectid:egen yy=max(t)
-gen sample_t5_balanced=0
-replace sample_t5_balanced=1 if t<=5
-replace sample_t5_balanced=0 if yy<5
-drop yy
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var'  FTAI  i.year lclim_* if sample_t5_balanced==1, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfe_t5b_`var'
-}
-
-esttab twfe_t5b_* using "results/TWFE_appendixA10_B.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI) se b(%9.3f) se(%9.3f)
-
-
-
-***********************************************************
-*** Table A11: Aggregated results for other variables 
-***********************************************************
-
-* CS estimates in the upper panel 
-
-estimates clear
-foreach var in log_carbon biodiv trees_highero trees_lowero{
-    
-	qui: xthdidregress aipw (`var' lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-	estat aggregation
-	estadd matrix b_a2= r(table)["b", 1 ...]
-	estadd matrix se_a2 = r(table)["se", 1 ...]
-	estadd matrix p_a2= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_appendixA11.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
-	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
-    clear matrix
-}
-
-foreach var in log_EVIgrass log_EVIcrop log_EVInatural log_EVIplants{
-	qui: xthdidregress aipw (`var' lclim_*) (FTAI) if year>2003 & T_year>2004, group(objectid) vce(cluster community_ID) controlgroup(notyet)
-	estat aggregation
-	estadd matrix b_a2= r(table)["b", 1 ...]
-	estadd matrix se_a2 = r(table)["se", 1 ...]
-	estadd matrix p_a2= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_appendixA11.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
-	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
-    clear matrix
-}
-
-* TWFE estimates in the lower panel 
-
-estimates clear
-foreach var of varlist log_carbon biodiv trees_highero trees_lowero{
-	xtreg `var' FTAI i.year lclim_*, fe vce(cluster community_ID)
-	estadd scalar clusters= e(N_clust)
-	estadd scalar plots= e(N_g)
-	sum `var' if e(sample)
-	estadd scalar mean_depvar= r(mean)
-	est sto twfeA11_`var'
-}
-
-foreach var of varlist log_EVI*{
-	xtreg `var' FTAI i.year lclim_*  if year>2003 & T_year>2004 , fe vce(cluster community_ID)
-	estadd scalar clusters= e(N_clust)
-	estadd scalar plots= e(N_g)
-	sum `var' if e(sample)
-	estadd scalar mean_depvar= r(mean)
-	est sto twfeA11_`var'
-}
-
-esttab twfeA11_* using "results/TWFE_appendixA11.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-
-***********************************************************
-*** Table A12: Heterogeneous effects by predominant land use at baseline (2001)
-***********************************************************
-
-egen tt=rowmax(grass crop natural plantation)  if year==2001
-foreach var of varlist grass crop natural plantation{
-	gen T_basemax`var'=0
-    replace T_basemax`var'=1 if `var'==tt
-	bysort objectid: egen tt2=max(T_basemax`var')
-	replace T_basemax`var'=1 if T_basemax`var'!=tt2
-	gen FTAI_basemax_`var'=FTAI*T_basemax`var'
-	drop tt2
-}
-drop tt
-
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var'  FTAI_basemax* i.year lclim_*, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfe_base_`var'
-}
-
-esttab twfe_base_* using "results/TWFE_appendixA12.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-
-***********************************************************
-*** Table A13: Heterogeneous effects by erodability
-***********************************************************
-
-** Panel A
-
-estimates clear
-
-foreach var of varlist grass crop natural plantation{
-xtreg `var'_lowero FTAI i.year lclim_*, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfel_`var'
-}
-
-esttab twfel_* using "results/TWFE_appendixA13_A.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-** Panel B
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var'_highero FTAI i.year lclim_*, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfeh_`var'
-}
-
-esttab twfeh_* using "results/TWFE_appendixA13_B.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-
-***********************************************************
-*** Table A14: Heterogeneous effects by community characteristics and conflict
-***********************************************************
-
-cap gen log_distance=log(distance)
-cap gen FTAI_ldist=log_distance*FTAI
-cap gen log_families=log(families)
-cap gen FTAI_lfam=log_families*FTAI
-
-
-** Panel A
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var' FTAI FTAI_ldist i.year lclim_*, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfed_`var'
-}
-
-esttab twfed_* using "results/TWFE_appendixA14_A.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-** Panel B
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var' FTAI FTAI_lfam i.year lclim_*, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfef_`var'
-}
-
-esttab twfef_* using "results/TWFE_appendixA14_B.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-** Panel C
-
-bysort cod_region: egen temp=median(pj)
-cap gen old_community=0 if pj!=.
-replace old_community=1 if pj<temp
-drop temp
-cap gen new_community=old_community+1
-replace new_community=0 if new_community==2
-cap gen FTAI_old=FTAI*old_community
-cap gen FTAI_new=FTAI*new_community
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var'  FTAI_old FTAI_new i.year lclim_*, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfe_old_`var'
-}
-
-esttab twfe_old_* using "results/TWFE_appendixA14_C.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-** Panel D
-
-foreach buffer in 500m 1km 2km{
-	cap gen FTAI_conflict90_plot_`buffer'=FTAI*conflict90_plot_`buffer'
-}
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var'  FTAI  FTAI_conflict90_plot_2km i.year lclim_*, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfe_confl_`var'
-
-}
-
-esttab twfe_confl_* using "results/TWFE_appendixA14_D.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-** Panel E
-
-foreach buffer in 500m 1km 2km{
-	cap gen FTAI_conflict90_pj_`buffer'=FTAI*conflict90_pj_`buffer'
-}
-
-estimates clear
-foreach var of varlist grass crop natural plantation{
-xtreg `var'  FTAI  FTAI_conflict90_pj_2km  i.year lclim_*, fe vce(cluster community_ID)
-estadd scalar clusters= e(N_clust)
-estadd scalar plots= e(N_g)
-sum `var' if e(sample)
-estadd scalar mean_depvar= r(mean)
-est sto twfe_conflpj_`var'
-
-}
-
-esttab twfe_conflpj_* using "results/TWFE_appendixA14_E.tex", $esttab_options replace scalars(mean_depvar clusters plots)  keep(FTAI*) se b(%9.3f) se(%9.3f)
-
-
-
-***********************************************************
-** Table A15: Bacon decomposition
-*********************************************************** 
-
-foreach var in grass crop natural plantation{
-xtdidregress  (`var') (FTAI), group(objectid) time(year) vce(cluster community_ID)
-estat bdecomp, summaryonly
-}
-
-
-***********************************************************
-** Table B5: EVI Validation
+** Table S16: EVI Validation
 *********************************************************** 
 
 * Column 1
+estimates clear
+
 preserve
 use "data/EVI_validation.dta", replace
 sum ln_EVI_crop, d
 keep if inrange(ln_EVI_crop, r(p5),r(p95))
-reg ln_valuecrop ln_EVI_crop, r
+keep ln_valuecrop ln_EVI_crop
+rename ln_EVI_crop ln_EVI
+reg ln_valuecrop ln_EVI, r
+sum ln_valuecrop if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto validation_crop
 restore
 
 * Column 2
@@ -854,19 +865,25 @@ preserve
 use "data/EVI_validation.dta", replace
 sum ln_EVI_grass, d
 keep if inrange(ln_EVI_grass, r(p5),r(p95))
-reg ln_LSU_grass ln_EVI_grass, r
+keep ln_LSU_grass ln_EVI_grass
+rename ln_EVI_grass ln_EVI
+reg ln_LSU_grass ln_EVI, r
+sum ln_LSU_grass if e(sample)
+estadd scalar mean_depvar= r(mean)
+est sto validation_grass
 restore
 
+esttab validation_* using "results/tables/S16.tex", $esttab_options scalars(mean_depvar N)  replace keep(ln_EVI) se b(%9.3f) se(%9.3f)
 
-log close
+}
 
 
-***************************************************************************
-* Appendix figures
-***************************************************************************
-
+//========================================================
+// Supplemetary results: Figures
+//========================================================
+{
 ***********************************************************
-** Figure A1: Land cover by ethnicity
+** Figure S1: Land cover by ethnicity
 *********************************************************
 preserve
 use  "data/census1997.dta", replace
@@ -929,60 +946,45 @@ graph hbar (mean) super, ///
 	  ytitle("Percent of total land", size($FONTSIZE_SMALL)) ///
 	  ylabel(, labsize($FONTSIZE_VSMALL)) ///
 	  bar(1, color(`r(p3)')) 
-graph export "results/Fig_sup_census.pdf", replace
+graph export "results/figures/S1.pdf", replace
 restore
 
 ***********************************************************
-** Figure A2: Cohort-specific event study for grasslands
+** Figure S2: Cohort-specific event study for grasslands
 *********************************************************
 qui: xthdidregress aipw (grass lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
 estat atetplot, title (, size($FONTSIZE_SMALL)) ///
 	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
 	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
-graph export "results/FigS2.pdf", replace ///
+graph export "results/figures/S2.pdf", replace ///
     width(7.0866) 
 
 
 ***********************************************************
-** Figure A3: Cohort-specific event study for plantations
+** Figure S3: Cohort-specific event study for plantations
 *********************************************************
 qui: xthdidregress aipw (plantation lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
 estat atetplot, title (, size($FONTSIZE_SMALL)) ///
 	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
 	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
-graph export "results/FigS3.pdf", replace ///
+graph export "results/figures/S3.pdf", replace ///
     width(7.0866) 
 
 
 ***********************************************************
-** Figure A4: Cohort-specific event study for natural forests
+** Figure S4: Cohort-specific event study for natural forests
 *********************************************************
 qui: xthdidregress aipw (natural lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
 estat atetplot, title (, size($FONTSIZE_SMALL)) ///
 	  ytitle("ATET", size($FONTSIZE_SMALL)) ///
 	  ylabel(, labsize($FONTSIZE_VSMALL)) legend(off)
-graph export "results/FigS4.pdf", replace ///
+graph export "results/figures/S4.pdf", replace ///
     width(7.0866) 
 
-
-
 ***********************************************************
-* Figure Results
-***********************************************************
+** Figure S5: EVI Productivity by land cover
+*********************************************************
 
-
-
-estimates clear
-foreach var in log_carbon biodiv trees_lowero trees_highero{  
-	qui: xthdidregress aipw (`var' lclim_*) (FTAI), group(objectid) vce(cluster community_ID) controlgroup(notyet)
-	estat aggregation
-	estadd matrix b_a2= r(table)["b", 1 ...]
-	estadd matrix se_a2 = r(table)["se", 1 ...]
-	estadd matrix p_a2= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_Table_Bio.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
-	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
-    clear matrix
-}
 estimates clear
 foreach var in log_EVIgrass log_EVInatural log_EVIplants{  
 	qui: xthdidregress aipw (`var' lclim_*) (FTAI) if year>2003 & T_year>2004, group(objectid) vce(cluster community_ID) controlgroup(notyet)
@@ -990,9 +992,13 @@ foreach var in log_EVIgrass log_EVInatural log_EVIplants{
 	estadd matrix b_a2= r(table)["b", 1 ...]
 	estadd matrix se_a2 = r(table)["se", 1 ...]
 	estadd matrix p_a2= r(table)["pvalue", 1 ...]
-	esttab using "results/CS_Table_EVI.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	esttab using "inter/CS_Table_EVI.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
     clear matrix
 }
-* Timestamps
+}
+
+log using "timestamp.log", append
+* Timestamp close
 display "Finished at: " c(current_date) " " c(current_time)
+log close

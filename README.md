@@ -6,13 +6,13 @@
 
 This repository provides all the necessary data and Stata code required to replicate the analyses and results presented in the paper titled **"Environmental impacts of Indigenous land restitution in Chile"**.
 
-> **Note:** The replicator should expect the code to run for approximately **1 hour** to complete the full analysis.
+> **Note:** The replicator should expect the code to run for approximately **30 minutes** to complete the full analysis.
 
 ---
 
 ## Data Availability and Provenance Statements
 
-All databases are provided in the folder `/data`. No additional permission is required to use them. All data files are provided in `.dta` format. Further details regarding these data are provided in the "Data" section of the paper.
+All databases are provided in the folder `/data`. No additional permission is required to use them. All data files are provided in `.dta` format, except for the files within `/data/figdata`. This latter subdirectory is only used for replication of Figure 1. Further details regarding these data are provided in the "Data" section of the paper.
 
 We certify that the authors of the manuscript have legitimate access to and permission to use the data used in this manuscript.
 
@@ -52,22 +52,31 @@ Land use data were created using two main sources:
 
 The code was last tested on the following setup:
 
-* **Hardware:** Intel(R) Core(TM) Ultra 7 155U (1.70 GHz) laptop.
-* **Storage:** 800GB of free space.
-* **OS:** Windows 11 Home Single Language (version 24H2).
+* **Hardware:** MacBook Air, M5 Chip, 24GB RAM.
+* **Storage:** 1600GB of free space.
+* **OS:** Tahoe 26.4.1
 
 ### Software Requirements
 
 * **Stata SE version 18.0** or later.
 * **Required Stata packages:** `estout`, `pallete`, `colrspace`.
+* **R 4.1** or later (for final figures).
+* **Required R libraries:** `ggplot2`, `tidyverse`, `readxl`, `sf`, `tigris`, `patchwork`, `dplyr`, `cowplot`, `here` (for final figures).
 
 ---
 
 ## Instructions to Replicators
 
 1. **Download and unzip** the replication package from the project repository.
-2. **Modify the path:** Open the file `Replication_FTAI_2026.do`. Find the placeholder `"YOUR PATH"` and replace it with the actual directory path where you extracted the files.
-3. **Run the analysis:** Execute `Replication_FTAI_2026.do` to replicate all figures and tables.
+2. **Modify the path:** Open the file `_replication.do`. Find the placeholder `"/your/path/to/root/of/repo/goes/here"` (line 27) and replace it with the actual directory path where you extracted the files.
+3. **Run the analysis:** Execute `_replication.do` to replicate the data needed to construct all figures and tables.
+4. **Construct final figures:** Execute `_replicationFinalFigures.R` in R to replicate the final figures as formatted in the paper.
+
+The results will be stores in `/results`:
+
+1. `/results/tables`: All tables as numbered as in the paper, starting with **M** for the main manuscript tables and **S** for supplementary tables. 
+2. `/results/figures`: All figures as numbered as in the paper, starting with **M** for the main manuscript figures and **S** for supplementary figures. 
+3. `/No_Table_Results_2026.log`: Results used to construct some of the supplementary tables, the log files records the number of the table related to each output as numbered in the supplementary material of the paper.
 
 ---
 

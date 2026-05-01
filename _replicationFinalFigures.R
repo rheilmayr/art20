@@ -1,4 +1,6 @@
-extrafont::loadfonts(device="win")
+if (.Platform$OS.type == "windows") {
+  extrafont::loadfonts(device = "win")
+}
 library(ggplot2)
 library(tidyverse)
 library(readxl)
@@ -7,8 +9,9 @@ library(tigris)
 library(patchwork)
 library(dplyr)
 library(cowplot)
+library(here)
 
-setwd("C:/Users/black/Documents/GitHub/art20")
+setwd(here())
 
 ##############################
 # Treat Graph
@@ -24,12 +27,12 @@ theme_fancy_map <- function() {
 }
 
 
-objectid_path <- "intermediate/shp/compras_de_tierras_art__20b__act__abril_2026_.shp"
+objectid_path <- "data/figdata/shp/compras_de_tierras_art__20b__act__abril_2026_.shp"
 objectid <- st_read(objectid_path)
-prov_path <- "intermediate/shp/Provincias.shp"
+prov_path <- "data/figdata/shp/Provincias.shp"
 prov <- st_read(prov_path)
 
-reg_path <- "intermediate/shp/Regional.shp"
+reg_path <- "data/figdata/shp/Regional.shp"
 reg2 <- st_read(reg_path)
 
 prov <- prov %>%
@@ -142,7 +145,7 @@ combined_map_hist <- ggdraw() +
   draw_plot(date_map, x = 0.612, y = 0.259, width = 0.4, height = 0.9)
 
 ggsave(
-  filename = "results/FTAI_map.pdf",
+  filename = "results/figures/M1.pdf",
   plot = combined_map_hist,
   device = cairo_pdf,
   width = 180,
@@ -219,14 +222,14 @@ parse_latex_file <- function(filepath) {
 }
 
 file_paths <- c(
-  "results/CS_dyn_Fig2.tex"
+  "inter/CS_dyn_Fig2.tex"
 )
 
 df_all <- lapply(file_paths, parse_latex_file) %>%
   bind_rows()
   
 file_paths <- c(
-  "results/CS_Table1.tex"
+  "results/tables/M1_CS.tex"
 )
 
 df_all2 <- lapply(file_paths, parse_latex_file) %>%
@@ -361,7 +364,7 @@ LC <- ggplot(df_all, aes(x = relative, y = coef)) +
 LC
 
 ggsave(
-  filename = "results/Land_Cover_Balance.pdf",
+  filename = "results/figures/M2.pdf",
   plot = LC,
   device = cairo_pdf,
   width = 180,
@@ -374,19 +377,19 @@ ggsave(
 ##############################
 
 file_paths <- c(
-  "results/CS_dyn_Fig3.tex"
+  "inter/CS_dyn_Fig3.tex"
 )
 
 df_all <- lapply(file_paths, parse_latex_file) %>%
   bind_rows()
   
 file_paths <- c(
-  "results/CS_Table_Bio.tex"
+  "results/tables/S8_CS.tex"
 )
 
 df_all2 <- lapply(file_paths, parse_latex_file) %>%
   bind_rows()
-  
+df_all2 <- df_all2[1:4,] 
   
 rename_fun <- function(x) case_when(
   x == "biodiv" ~ "Biodiversity",
@@ -532,7 +535,7 @@ BIO <- ggplot(df_all, aes(x = relative, y = coef)) +
 BIO
 
 ggsave(
-  filename = "results/Bio.pdf",
+  filename = "results/figures/M3.pdf",
   plot = BIO,
   device = cairo_pdf,
   width = 180,
@@ -543,14 +546,14 @@ ggsave(
 #EVI Graph
 ##############################
 file_paths <- c(
-  "results/CS_dyn_Fig4.tex"
+  "inter/CS_dyn_Fig4.tex"
 )
 
 df_all <- lapply(file_paths, parse_latex_file) %>%
   bind_rows()
   
 file_paths <- c(
-  "results/CS_Table_EVI.tex"
+  "inter/CS_Table_EVI.tex"
 )
 
 df_all2 <- lapply(file_paths, parse_latex_file) %>%
@@ -690,7 +693,7 @@ EVI <- ggplot(df_all, aes(x = relative, y = coef)) +
 EVI
 
 ggsave(
-  filename = "results/EVI.pdf",
+  filename = "results/figures/S5.pdf",
   plot = EVI,
   device = cairo_pdf,
   width = 180,
