@@ -25,7 +25,6 @@ global esttab_options starlevels(* 0.1 ** 0.05 *** 0.01) ///
 							 
 clear 
 *cd "/your/path/to/root/of/repo/goes/here" 
-cd "/Users/fj/research/art20"
 
 use "data/Maindata_FTAI_2026.dta", clear
 xtset objectid year
