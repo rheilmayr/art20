@@ -5,7 +5,7 @@
 *Use this do file with the Maindata_FTAI_2026.dta dataset
 *************************************************************
 * Timestampopen
-log using "timestamp.log" 
+log using "timestamp.log", replace 
 display "Started at: " c(current_date) " " c(current_time)
 log close
 
@@ -50,6 +50,8 @@ foreach var in grass crop natural plantation{
 	estadd matrix se_a2 = r(table)["se", 1 ...]
 	estadd matrix p_a2= r(table)["pvalue", 1 ...]
 	esttab using "results/tables/M1_CS.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+	esttab using "inter/M1_CS.tex", $esttab_options cells(p_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
     clear matrix
 }
@@ -591,6 +593,8 @@ foreach var in log_carbon biodiv trees_highero trees_lowero{
 	estadd matrix p_a2= r(table)["pvalue", 1 ...]
 	esttab using "results/tables/S8_CS.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+	esttab using "inter/S8_CS.tex", $esttab_options cells(p_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
     clear matrix
 }
 
@@ -601,6 +605,8 @@ foreach var in log_EVIgrass log_EVIcrop log_EVInatural log_EVIplants{
 	estadd matrix se_a2 = r(table)["se", 1 ...]
 	estadd matrix p_a2= r(table)["pvalue", 1 ...]
 	esttab using "results/tables/S8_CS.tex", $esttab_options cells(b_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
+	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
+	esttab using "inter/S8_CS.tex", $esttab_options cells(p_a2(fmt(3) star pval(p_a2)) se_a2(fmt(3) par)) ///
 	eqlab(none) mlab(`var', lhs(Cohort)) collab(none) nonumb   append
     clear matrix
 }

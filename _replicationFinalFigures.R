@@ -235,6 +235,20 @@ file_paths <- c(
 df_all2 <- lapply(file_paths, parse_latex_file) %>%
   bind_rows()
 
+file_paths <- c(
+  "inter/M1_CS.tex"
+)
+
+df_all3 <- lapply(file_paths, parse_latex_file) %>%
+  bind_rows()
+df_all3 <- df_all3 %>%
+  rename(pval = coef)%>%
+  select(source, pval)
+df_all2 <- df_all2 %>%
+  left_join(df_all3, by = "source") %>%
+  mutate(
+    p_label = sprintf("p=%.3f", pval)
+  )
 rename_fun <- function(x) case_when(
   x == "natural" ~ "Natural Forest",
   x == "plantation" ~ "Plantation Forest",
@@ -256,12 +270,7 @@ labels_full <- c(
 df_all$source <- factor(df_all$source, levels = order_levels, labels = labels_full)
 df_all2$source <- factor(df_all2$source, levels = order_levels, labels = labels_full)
 
-df_all2 <- df_all2 %>%
-  mutate(
-    z = coef / stderr,
-    p_value = 2 * (1 - pnorm(abs(z))),
-    p_label = sprintf("p=%.3f", p_value)
-  )
+
 panel_labels <- df_all %>%
   group_by(source) %>%
   summarise(
@@ -390,7 +399,20 @@ file_paths <- c(
 df_all2 <- lapply(file_paths, parse_latex_file) %>%
   bind_rows()
 df_all2 <- df_all2[1:4,] 
-  
+file_paths <- c(
+  "inter/S8_CS.tex"
+)
+
+df_all3 <- lapply(file_paths, parse_latex_file) %>%
+  bind_rows()
+df_all3 <- df_all3[1:4,] %>%
+  rename(pval = coef)%>%
+  select(source, pval)
+df_all2 <- df_all2 %>%
+  left_join(df_all3, by = "source") %>%
+  mutate(
+    p_label = sprintf("p=%.3f", pval)
+  )
 rename_fun <- function(x) case_when(
   x == "biodiv" ~ "Biodiversity",
   x == "log_carbon" ~ "Log(Carbon)",
@@ -553,11 +575,26 @@ df_all <- lapply(file_paths, parse_latex_file) %>%
   bind_rows()
   
 file_paths <- c(
-  "inter/CS_Table_EVI.tex"
+  "results/tables/S8_CS.tex"
 )
 
 df_all2 <- lapply(file_paths, parse_latex_file) %>%
   bind_rows()
+df_all2 <- df_all2[c(5, 7, 8), ]
+file_paths <- c(
+  "inter/S8_CS.tex"
+)
+
+df_all3 <- lapply(file_paths, parse_latex_file) %>%
+  bind_rows()
+df_all3 <- df_all3[c(5, 7, 8), ] %>%
+  rename(pval = coef)%>%
+  select(source, pval)
+df_all2 <- df_all2 %>%
+  left_join(df_all3, by = "source") %>%
+  mutate(
+    p_label = sprintf("p=%.3f", pval)
+  )
   
 rename_fun <- function(x) case_when(
   x == "log_EVIgrass" ~ "Log(EVI) - Grassland",
