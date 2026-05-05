@@ -418,7 +418,7 @@ foreach var of varlist grass crop natural plantation{
 	est sto twfeA7_`var'
 }
 
-esttab twfeA7_* using "results/tables/S4_CS.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
+esttab twfeA7_* using "results/tables/S4_TWFE.tex", $esttab_options scalars(mean_depvar clusters plots)  replace keep(FTAI*) se b(%9.3f) se(%9.3f)
 
 
 ***********************************************************

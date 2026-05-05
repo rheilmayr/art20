@@ -44,7 +44,7 @@ reg <- reg2 %>%
 
 objectid <- objectid %>%
   filter(as.numeric(COD_REGION) %in% c(08, 09, 10, 14) & !PROVINCIA %in% c("CHILOE", "LLANQUIHUE")) %>%
-  filter(A_O <2020)
+  filter(A_O <2023)
   
 objectid$A_O <- as.numeric(as.character(objectid$A_O))
 

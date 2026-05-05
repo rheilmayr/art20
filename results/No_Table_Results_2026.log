@@ -1,8 +1,8 @@
---------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  /Users/fj/research/art20/results/No_Table_Results_2026.log
+       log:  C:\Users\black\Documents\GitHub\art20\results/No_Table_Results_2026.log
   log type:  text
- opened on:   1 May 2026, 12:31:07
+ opened on:   4 May 2026, 17:18:55
 . 
 . 
 . ***********************************************************
@@ -88,7 +88,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 . * land cover class in t+3. This is the information used to fill Table A3
 . bysort lc0: summ lc1_grass lc1_crop lc1_plant lc1_native lc1_ambig lc1_other
 
---------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 -> lc0 = ambiguous
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -101,7 +101,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |        887    .0009814    .0181782          0         .5
 
---------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 -> lc0 = crop
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -114,7 +114,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |        395    .0008513    .0146395          0   .2898551
 
---------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 -> lc0 = grass
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -127,7 +127,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |      1,047    .0005777     .010599          0   .3333333
 
---------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 -> lc0 = native
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -140,7 +140,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |        871    .0001222    .0015572          0   .0288889
 
---------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 -> lc0 = other
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -153,7 +153,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |        172    .8503726    .3152219          0          1
 
---------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 -> lc0 = plantation
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -219,8 +219,8 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
          17 |         41        0.14      100.00
 ------------+-----------------------------------
       Total |     29,963      100.00
-. * The % of treated in the sample described in Table A3 referes to the number of treated properties between 2001-2019 (a total of 1,5
-> 04 properties)
+. * The % of treated in the sample described in Table A3 referes to the number of treated properties b
+> etween 2001-2019 (a total of 1,504 properties)
 . 
 . ***********************************************************
 . ** Table S12: Bacon decomposition
@@ -275,9 +275,9 @@ Treated earlier vs later                       .04453814              0.517460
 Treated later vs earlier                       .00720622              0.379825
 ------------------------------------------------------------------------------
 Note: Number of cohorts includes never treated.
-Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any component is substantially different
-      from the ATET reported by xtdidregress and the weight is large, consider accounting for treatment-effect heterogeneity by
-      using xthdidregress.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any
+      component is substantially different from the ATET reported by xtdidregress and the weight is
+      large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
 
 Treatment and time information
 
@@ -323,9 +323,9 @@ Treated earlier vs later                      -.02959694              0.517460
 Treated later vs earlier                      -.00544612              0.379825
 ------------------------------------------------------------------------------
 Note: Number of cohorts includes never treated.
-Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any component is substantially different
-      from the ATET reported by xtdidregress and the weight is large, consider accounting for treatment-effect heterogeneity by
-      using xthdidregress.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any
+      component is substantially different from the ATET reported by xtdidregress and the weight is
+      large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
 
 Treatment and time information
 
@@ -371,9 +371,9 @@ Treated earlier vs later                        .0072784              0.517460
 Treated later vs earlier                      -.01204529              0.379825
 ------------------------------------------------------------------------------
 Note: Number of cohorts includes never treated.
-Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any component is substantially different
-      from the ATET reported by xtdidregress and the weight is large, consider accounting for treatment-effect heterogeneity by
-      using xthdidregress.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any
+      component is substantially different from the ATET reported by xtdidregress and the weight is
+      large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
 
 Treatment and time information
 
@@ -419,12 +419,12 @@ Treated earlier vs later                      -.03067786              0.517460
 Treated later vs earlier                         .009432              0.379825
 ------------------------------------------------------------------------------
 Note: Number of cohorts includes never treated.
-Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any component is substantially different
-      from the ATET reported by xtdidregress and the weight is large, consider accounting for treatment-effect heterogeneity by
-      using xthdidregress.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any
+      component is substantially different from the ATET reported by xtdidregress and the weight is
+      large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
 . log close
       name:  <unnamed>
-       log:  /Users/fj/research/art20/results/No_Table_Results_2026.log
+       log:  C:\Users\black\Documents\GitHub\art20\results/No_Table_Results_2026.log
   log type:  text
- closed on:   1 May 2026, 12:31:21
---------------------------------------------------------------------------------------------------------------------------------------
+ closed on:   4 May 2026, 17:20:22
+------------------------------------------------------------------------------------------------------

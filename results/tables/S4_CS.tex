@@ -1,16 +1,52 @@
 {
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\begin{tabular}{l*{4}{c}}
+\begin{tabular}{l*{1}{c}}
 \toprule
-          &\multicolumn{1}{c}{grass}&\multicolumn{1}{c}{crop}&\multicolumn{1}{c}{natural}&\multicolumn{1}{c}{plantation}\\
+Cohort    &grass\_1km   \\
 \midrule
-FTAI      &    0.027***&   -0.004   &   -0.002   &   -0.023*  \\
-          &  (0.009)   &  (0.014)   &  (0.007)   &  (0.013)   \\
+r1vs0.FTAI&    0.019*  \\
+          &  (0.010)   \\
 \midrule
-\(N\)     &    22876   &    22876   &    22876   &    22876   \\
-mean\_depvar&    0.448   &    0.100   &    0.206   &    0.159   \\
-clusters  &  367.000   &  367.000   &  367.000   &  367.000   \\
-plots     & 1204.000   & 1204.000   & 1204.000   & 1204.000   \\
+\(N\)     &    22876   \\
+\bottomrule
+\end{tabular}
+}
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{c}}
+\toprule
+Cohort    & crop\_1km   \\
+\midrule
+r1vs0.FTAI&    0.010   \\
+          &  (0.015)   \\
+\midrule
+\(N\)     &    22876   \\
+\bottomrule
+\end{tabular}
+}
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{c}}
+\toprule
+Cohort    &natural\_1km   \\
+\midrule
+r1vs0.FTAI&    0.002   \\
+          &  (0.004)   \\
+\midrule
+\(N\)     &    22876   \\
+\bottomrule
+\end{tabular}
+}
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{c}}
+\toprule
+Cohort    &plantation\_1km   \\
+\midrule
+r1vs0.FTAI&   -0.028** \\
+          &  (0.014)   \\
+\midrule
+\(N\)     &    22876   \\
 \bottomrule
 \end{tabular}
 }
