@@ -29,17 +29,17 @@ theme_fancy_map <- function() {
 
 objectid_path <- "data/figdata/shp/compras_de_tierras_art__20b__act__abril_2026_.shp"
 objectid <- st_read(objectid_path)
-prov_path <- "data/figdata/shp/Provincias.shp"
-prov <- st_read(prov_path)
+prov_path <- "data/figdata/World Bank Official Boundaries - Admin 2 - Chile.gpkg"
+prov <- st_read(prov_path) %>% filter(ISO_A2=="CL")
 
-reg_path <- "data/figdata/shp/Regional.shp"
-reg2 <- st_read(reg_path)
+reg_path <- "data/figdata/World Bank Official Boundaries - Admin 1 - Chile.gpkg"
+reg2 <- st_read(reg_path) %>% filter(ISO_A2=="CL")
 
 prov <- prov %>%
-   filter(Provincia == "Osorno")
+   filter(NAM_2 == "Osorno")
 
 reg <- reg2 %>%
-  filter(as.numeric(codregion) %in% c(8, 9, 14))
+  filter(ADM1CD_c %in% c("CHL006", "CHL003", "CHL010"))
 
 
 objectid <- objectid %>%
