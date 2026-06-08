@@ -225,7 +225,7 @@ foreach var in log_EVIgrass log_EVIplants log_EVInatural{
 // Supplemetary results: Results not stored in tables (log)
 //========================================================
 {
-log using "results/No_Table_Results_2026.log" /*for results not stored as table*/
+log using "results/No_Table_Results_2026.log", replace /*for results not stored as table*/
 
 
 ***********************************************************
@@ -304,7 +304,7 @@ foreach var in grass crop natural plantation{
 xtdidregress  (`var') (FTAI), group(objectid) time(year) vce(cluster community_ID)
 estat bdecomp, summaryonly
 }
-log close
+
 
 ***********************************************************
 ** Table S13: Descriptive statistics for land use
@@ -345,6 +345,7 @@ sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==6
 **Lower panel (time-invariant variables)
 
 sum d_reservation distance families pj conflict90_plot_2km conflict90_pj_2km if year==2001, d /*The descriptives here are the same in each year*/
+log close
 }
 
 

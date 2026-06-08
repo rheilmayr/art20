@@ -1,8 +1,8 @@
-------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\Users\black\Documents\GitHub\art20\results/No_Table_Results_2026.log
+       log:  /Users/fj/research/art20/results/No_Table_Results_2026.log
   log type:  text
- opened on:   4 May 2026, 17:18:55
+ opened on:   8 Jun 2026, 11:46:10
 . 
 . 
 . ***********************************************************
@@ -88,7 +88,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 . * land cover class in t+3. This is the information used to fill Table A3
 . bysort lc0: summ lc1_grass lc1_crop lc1_plant lc1_native lc1_ambig lc1_other
 
-------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 -> lc0 = ambiguous
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -101,7 +101,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |        887    .0009814    .0181782          0         .5
 
-------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 -> lc0 = crop
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -114,7 +114,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |        395    .0008513    .0146395          0   .2898551
 
-------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 -> lc0 = grass
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -127,7 +127,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |      1,047    .0005777     .010599          0   .3333333
 
-------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 -> lc0 = native
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -140,7 +140,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |        871    .0001222    .0015572          0   .0288889
 
-------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 -> lc0 = other
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -153,7 +153,7 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
 -------------+---------------------------------------------------------
    lc1_other |        172    .8503726    .3152219          0          1
 
-------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 -> lc0 = plantation
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -219,8 +219,8 @@ lc0_native_gt0 |        871   13.44855      844.6122    897.3878
          17 |         41        0.14      100.00
 ------------+-----------------------------------
       Total |     29,963      100.00
-. * The % of treated in the sample described in Table A3 referes to the number of treated properties b
-> etween 2001-2019 (a total of 1,504 properties)
+. * The % of treated in the sample described in Table A3 referes to the number of treated properties between 2001-2019 (a total of 1,504 propert
+> ies)
 . 
 . ***********************************************************
 . ** Table S12: Bacon decomposition
@@ -275,9 +275,8 @@ Treated earlier vs later                       .04453814              0.517460
 Treated later vs earlier                       .00720622              0.379825
 ------------------------------------------------------------------------------
 Note: Number of cohorts includes never treated.
-Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any
-      component is substantially different from the ATET reported by xtdidregress and the weight is
-      large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any component is substantially different from the
+      ATET reported by xtdidregress and the weight is large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
 
 Treatment and time information
 
@@ -323,9 +322,8 @@ Treated earlier vs later                      -.02959694              0.517460
 Treated later vs earlier                      -.00544612              0.379825
 ------------------------------------------------------------------------------
 Note: Number of cohorts includes never treated.
-Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any
-      component is substantially different from the ATET reported by xtdidregress and the weight is
-      large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any component is substantially different from the
+      ATET reported by xtdidregress and the weight is large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
 
 Treatment and time information
 
@@ -371,9 +369,8 @@ Treated earlier vs later                        .0072784              0.517460
 Treated later vs earlier                      -.01204529              0.379825
 ------------------------------------------------------------------------------
 Note: Number of cohorts includes never treated.
-Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any
-      component is substantially different from the ATET reported by xtdidregress and the weight is
-      large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any component is substantially different from the
+      ATET reported by xtdidregress and the weight is large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
 
 Treatment and time information
 
@@ -419,12 +416,264 @@ Treated earlier vs later                      -.03067786              0.517460
 Treated later vs earlier                         .009432              0.379825
 ------------------------------------------------------------------------------
 Note: Number of cohorts includes never treated.
-Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any
-      component is substantially different from the ATET reported by xtdidregress and the weight is
-      large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET components. If any component is substantially different from the
+      ATET reported by xtdidregress and the weight is large, consider accounting for treatment-effect heterogeneity by using xthdidregress.
+. 
+. 
+. ***********************************************************
+. ** Table S13: Descriptive statistics for land use
+. ***********************************************************
+. 
+. * Main sample
+. sum grass crop natural plantation  
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       grass |     29,963    .4646195    .3182609          0          1
+        crop |     29,963    .1060963    .2208358          0          1
+     natural |     29,963    .2070315    .2409382          0          1
+  plantation |     29,963    .1498073    .2545519          0          1
+. 
+. * 2001 and 2019
+. sum grass crop natural plantation if year==2001
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       grass |      1,577     .492924    .3134265          0          1
+        crop |      1,577    .1061915    .2224737          0          1
+     natural |      1,577    .2301491      .24453          0   .9956772
+  plantation |      1,577    .1041451    .2183829          0          1
+. sum grass crop natural plantation if year==2019
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       grass |      1,577    .4410011     .312588          0          1
+        crop |      1,577    .1169926    .2275214          0   .9882353
+     natural |      1,577    .2180249    .2406673          0   .9931507
+  plantation |      1,577    .1545435    .2546314          0          1
+. 
+. * Before and after treatment
+. sum grass crop natural plantation if t==-1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       grass |      1,504     .458599    .3216747          0          1
+        crop |      1,504    .1148711    .2290236          0   .9882353
+     natural |      1,504    .2009121    .2394609          0          1
+  plantation |      1,504    .1548209    .2634293          0          1
+. sum grass crop natural plantation if t==3
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       grass |      1,251    .4748802    .3196235          0          1
+        crop |      1,251    .0955275    .2125722          0   .9882353
+     natural |      1,251    .2101881    .2441427          0   .9931507
+  plantation |      1,251    .1422232    .2381684          0          1
+. sum grass crop natural plantation if t==6
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       grass |        782    .5019907    .3051361          0          1
+        crop |        782    .1048187    .2207396          0   .9882353
+     natural |        782    .2097425    .2476751          0   .9978058
+  plantation |        782    .1061226    .1896299          0          1
+. 
+. ***********************************************************
+. ** Table S14: Descriptive statistics for other variables
+. ***********************************************************
+. 
+. **Upper panel (time-variant outcomes)
+. 
+. * Main sample
+. sum log_carbon biodiv trees_highero trees_lowero 
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  log_carbon |     29,961    2.951228    1.318335  -2.431069   4.751065
+      biodiv |     29,963   -.9934713    .3246333  -2.458171          0
+trees_high~o |     16,663    .6522486    .3296977          0          1
+trees_lowero |     26,315    .3542373    .3235504          0          1
+. sum log_EVI* if year>2003 & T_year>2004 
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+log_EVIgrass |     20,752    -1.00021    .2628547   -2.37576  -.2767593
+ log_EVIcrop |      5,824   -1.232569    .3803552  -3.215145  -.1805998
+log_EVInat~l |     13,056   -.7702702    .1423675  -1.961492  -.3189566
+log_EVIpla~s |      7,376   -.9300411    .1994794  -3.010885  -.3672027
+. 
+. * First and last year
+. sum log_carbon biodiv trees_highero trees_lowero if year==2001
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  log_carbon |      1,577    2.985725    1.334217  -1.368903   4.751065
+      biodiv |      1,577   -.9421738    .3107524  -2.089019  -.0014539
+trees_high~o |        877    .6280502    .3318625          0          1
+trees_lowero |      1,385    .3231592     .305794          0          1
+. sum log_EVI* if year==2004
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+log_EVIgrass |      1,437   -1.093632    .2471002  -1.973238  -.5582219
+ log_EVIcrop |        406   -1.419928    .3155351  -3.117968  -.5593551
+log_EVInat~l |        911   -.8381306    .1414912  -1.621632   -.449284
+log_EVIpla~s |        502   -.9815994     .226416  -3.010885  -.5033921
+. sum log_carbon biodiv trees_highero trees_lowero log_EVI* if year==2019
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  log_carbon |      1,577    3.041227    1.271514  -1.132514   4.751065
+      biodiv |      1,577    -.976565     .316491  -2.276053  -.0018505
+trees_high~o |        877    .6665106     .327508          0          1
+trees_lowero |      1,385    .3666789    .3271787          0          1
+log_EVIgrass |      1,437   -.9050051    .1895196  -1.848357  -.4711947
+-------------+---------------------------------------------------------
+ log_EVIcrop |        406   -1.060741    .2915886  -1.853483  -.3766056
+log_EVInat~l |        911   -.7481392    .1411693  -1.783144  -.3648621
+log_EVIpla~s |        502   -.9091662    .2152287  -2.062421  -.4719964
+. 
+. * Before and after treatment
+. sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==-1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  log_carbon |      1,504    2.913479    1.332119  -1.132514   4.751065
+      biodiv |      1,504   -1.001363    .3237992  -2.124529          0
+trees_high~o |        831    .6516463    .3332651          0          1
+trees_lowero |      1,318    .3521877    .3278628          0          1
+log_EVIgrass |      1,286   -.9904177    .2530311  -1.888859  -.3438489
+-------------+---------------------------------------------------------
+ log_EVIcrop |        366   -1.175473    .3934068  -2.514068   -.203913
+log_EVInat~l |        810   -.7664252    .1505903  -1.578682  -.4177973
+log_EVIpla~s |        439   -.9296108    .2056154   -2.02965  -.4635659
+. sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==3
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  log_carbon |      1,251    2.953628    1.336115  -1.268315   4.751065
+      biodiv |      1,251   -.9915916    .3272171  -1.957711  -.0013878
+trees_high~o |        679    .6448255    .3337677          0          1
+trees_lowero |      1,080    .3506728     .320906          0          1
+log_EVIgrass |      1,139   -.9846043    .2547196  -1.898412  -.4357139
+-------------+---------------------------------------------------------
+ log_EVIcrop |        291   -1.259867    .3574515  -2.072798  -.3791286
+log_EVInat~l |        711   -.7518259    .1542355  -1.783144  -.3189566
+log_EVIpla~s |        383   -.9447535    .2453241  -2.062421  -.3672027
+. sum log_carbon biodiv trees_highero trees_lowero log_EVI* if t==6
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  log_carbon |        782    2.873794    1.375042  -1.132514   4.749452
+      biodiv |        782   -.9849876    .3284401  -2.157768  -.0012557
+trees_high~o |        440    .5938496    .3337922          0          1
+trees_lowero |        655    .2954767    .2848056          0          1
+log_EVIgrass |        742    -1.02059    .2525569   -2.33739  -.5133542
+-------------+---------------------------------------------------------
+ log_EVIcrop |        205   -1.288689    .3518145  -1.978586  -.3959296
+log_EVInat~l |        449   -.7728082    .1668587  -1.961492  -.4257833
+log_EVIpla~s |        222   -.9349305    .1921481  -1.623994   -.495092
+. 
+. **Lower panel (time-invariant variables)
+. 
+. sum d_reservation distance families pj conflict90_plot_2km conflict90_pj_2km if year==2001, d /*The descriptives here are the same in each yea
+> r*/
+
+          Dummy for plot located within historical
+                   indigenous reservations
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs               1,577
+25%            0              0       Sum of wgt.       1,577
+
+50%            0                      Mean           .2162334
+                        Largest       Std. dev.      .4118058
+75%            0              1
+90%            1              1       Variance        .169584
+95%            1              1       Skewness       1.378595
+99%            1              1       Kurtosis       2.900523
+
+          Distance to beneficiary Mapuche community
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .1889387       .0140961
+ 5%     .6846498       .0337697
+10%     1.106277       .0355669       Obs               1,471
+25%     2.220122       .0490068       Sum of wgt.       1,471
+
+50%     8.586996                      Mean           20.21446
+                        Largest       Std. dev.      25.03399
+75%     30.90682       131.7045
+90%     54.48951       132.3616       Variance       626.7005
+95%     70.74613       150.5789       Skewness       1.816754
+99%     99.71746       169.7654       Kurtosis       6.831543
+
+               Number of beneficiary families
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            2              1
+ 5%            5              1
+10%            9              1       Obs               1,479
+25%           18              1       Sum of wgt.       1,479
+
+50%           32                      Mean           41.69371
+                        Largest       Std. dev.      37.85214
+75%           53            206
+90%           79            206       Variance       1432.785
+95%          117            228       Skewness        2.23923
+99%          206            324       Kurtosis       9.768597
+
+            Community legal registration number 
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            6              1
+ 5%           28              3
+10%           62              3       Obs               1,503
+25%          194              4       Sum of wgt.       1,503
+
+50%          582                      Mean           722.1091
+                        Largest       Std. dev.      591.3642
+75%         1136           2072
+90%         1633           2157       Variance       349711.6
+95%         1821           2402       Skewness       .6153941
+99%         2049           2593       Kurtosis       2.218819
+
+        Conflict around 2km the property (1990-2001):
+                           MACEDA
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs               1,577
+25%            0              0       Sum of wgt.       1,577
+
+50%            0                      Mean           .1496512
+                        Largest       Std. dev.      .3568424
+75%            0              1
+90%            1              1       Variance       .1273365
+95%            1              1       Skewness       1.964228
+99%            1              1       Kurtosis       4.858191
+
+       Conflict around 2km the community (1990-2001):
+                           MACEDA
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs               1,577
+25%            0              0       Sum of wgt.       1,577
+
+50%            0                      Mean           .0970197
+                        Largest       Std. dev.      .2960784
+75%            0              1
+90%            0              1       Variance       .0876624
+95%            1              1       Skewness       2.722982
+99%            1              1       Kurtosis       8.414633
 . log close
       name:  <unnamed>
-       log:  C:\Users\black\Documents\GitHub\art20\results/No_Table_Results_2026.log
+       log:  /Users/fj/research/art20/results/No_Table_Results_2026.log
   log type:  text
- closed on:   4 May 2026, 17:20:22
-------------------------------------------------------------------------------------------------------
+ closed on:   8 Jun 2026, 11:46:24
+------------------------------------------------------------------------------------------------------------------------------------------------
