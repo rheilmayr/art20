@@ -10,6 +10,8 @@ library(patchwork)
 library(dplyr)
 library(cowplot)
 library(here)
+library(ggspatial)
+library(ggh4x)
 
 setwd(here())
 
@@ -70,6 +72,18 @@ date_map <- ggplot() +
     colours = c("yellow", "orange", "red"), 
     limits = c(min(objectid$A_O), max(objectid$A_O)),
     guide = "none"
+  ) +
+  annotation_scale(
+    location = "bl",
+    style = "ticks",
+    unit_category = "metric",
+    width_hint = 0.18,
+    text_cex = 0.55,
+    line_width = 0.2,
+    height = unit(0.04, "cm"),
+    text_pad = unit(0.05, "cm"),
+    pad_x = unit(0.15, "cm"),
+    pad_y = unit(0.15, "cm")
   ) +
   labs(
     fill = "Year",
@@ -135,7 +149,10 @@ hist_legend <- ggplot(objectid, aes(x = A_O)) +
     axis.text.x = element_text(size = 7, angle = 45, hjust = 1),
     plot.caption = element_text(size = 7, hjust = 0.5, face = "bold"),
     plot.title = element_text(size = 9, hjust = 0.6, face = "bold"),
-    panel.grid = element_blank()
+    panel.grid = element_blank(),
+    axis.ticks = element_line(color = "black", linewidth = 0.3),
+    axis.ticks.length = unit(2, "pt"),
+    axis.line = element_line(color = "black", linewidth = 0.3)
   ) +
   text_override
 
@@ -282,7 +299,6 @@ panel_labels <- df_all %>%
     label = c("a", "b", "c", "d")
   )
 LC <- ggplot(df_all, aes(x = relative, y = coef)) +
-  
   geom_ribbon(aes(
     ymin = coef - 1.96 * stderr,
     ymax = coef + 1.96 * stderr
@@ -331,7 +347,13 @@ LC <- ggplot(df_all, aes(x = relative, y = coef)) +
     inherit.aes = FALSE
   ) +
   
-  facet_wrap(~ source) +
+  facet_wrap(
+    ~ source,
+    strip.position = "left",
+    labeller = labeller(
+      source = function(x) paste0("Treatment Effect (% of Property) - ", x)
+    )
+  ) +
   
   scale_x_continuous(
     limits = c(-10, 11),
@@ -340,8 +362,9 @@ LC <- ggplot(df_all, aes(x = relative, y = coef)) +
   
   labs(
     x = "Time since restitution (years)",
-    y = "Treatment Effect (% of Property)"
+    y = NULL
   ) +
+  
   geom_label(
     data = panel_labels,
     aes(x = x, y = y, label = label),
@@ -355,13 +378,23 @@ LC <- ggplot(df_all, aes(x = relative, y = coef)) +
     label.size = 0,
     inherit.aes = FALSE
   ) +
+  
   theme_minimal(base_family = "Arial", base_size = 7) +
   
   theme(
     text = element_text(family = "Arial", size = 7),
     axis.title = element_text(family = "Arial", size = 7),
+    axis.title.y = element_blank(),
     axis.text = element_text(family = "Arial", size = 7),
-    strip.text = element_text(family = "Arial", size = 7),
+    
+    strip.placement = "outside",
+    strip.background = element_blank(),
+    strip.text.y.left = element_text(
+      family = "Arial",
+      size = 7,
+      angle = 90
+    ),
+    
     legend.text = element_text(family = "Arial", size = 7),
     legend.title = element_text(family = "Arial", size = 7),
     plot.title = element_text(family = "Arial", size = 7),
@@ -518,9 +551,13 @@ BIO <- ggplot(df_all, aes(x = relative, y = coef)) +
     inherit.aes = FALSE
   ) +
   
-
-  
-  facet_wrap(~ source) +
+  facet_wrap(
+    ~ source,
+    strip.position = "left",
+    labeller = labeller(
+      source = function(x) paste0("Treatment Effect - ", x)
+    )
+  ) +
   
   scale_x_continuous(
     limits = c(-10, 11),
@@ -531,8 +568,9 @@ BIO <- ggplot(df_all, aes(x = relative, y = coef)) +
   
   labs(
     x = "Time since restitution (years)",
-    y = "Treatment Effect"
+    y = NULL
   ) +
+  
   geom_label(
     data = panel_labels,
     aes(x = x, y = y, label = label),
@@ -545,11 +583,19 @@ BIO <- ggplot(df_all, aes(x = relative, y = coef)) +
     color = "black",
     label.size = 0,
     inherit.aes = FALSE
-  )+
+  ) +
+  
   theme_minimal(base_family = "Arial", base_size = 7) +
   theme(
     text = element_text(family = "Arial", size = 7),
-    strip.text = element_text(size = 7),
+    axis.title.y = element_blank(),
+    strip.placement = "outside",
+    strip.background = element_blank(),
+    strip.text.y.left = element_text(
+      family = "Arial",
+      size = 7,
+      angle = 90
+    ),
     panel.grid.major = element_line(color = "grey85", linewidth = 0.3),
     panel.grid.minor = element_line(color = "grey92", linewidth = 0.2)
   )
