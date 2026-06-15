@@ -61,7 +61,9 @@ The code was last tested on the following setup:
 * **Stata SE version 18.0** or later.
 * **Required Stata packages:** `estout`, `pallete`, `colrspace`.
 * **R 4.1** or later (for final figures).
-* **Required R libraries:** `ggplot2`, `tidyverse`, `readxl`, `sf`, `tigris`, `patchwork`, `dplyr`, `cowplot`, `here` (for final figures).
+* **Required R libraries:** `ggplot2`, `tidyverse`, `readxl`, `sf`, `tigris`, `patchwork`, `dplyr`, `cowplot`, `here`, `ggspatial`, `ggh4x`  (for final figures).
+* **Python 3.9** or later (for the administrative-data report).
+* **Required Python libraries:** `pandas`, `openpyxl` (for the administrative-data report). The script also uses the standard-library modules `pathlib`, `re`, and `urllib`.
 
 ---
 
@@ -71,12 +73,14 @@ The code was last tested on the following setup:
 2. **Modify the path:** Open the file `_replication.do`. Find the placeholder `"/your/path/to/root/of/repo/goes/here"` (line 27) and replace it with the actual directory path where you extracted the files.
 3. **Run the analysis:** Execute `_replication.do` to replicate the data needed to construct all figures and tables.
 4. **Construct final figures:** Execute `_replicationFinalFigures.R` in R to replicate the final figures as formatted in the paper.
+5. **Generate the administrative-data report:** Execute `_replication_adm.py` in Python to compute the summary statistics on the land restitution program from the CONADI administrative data (hectares acquired, beneficiary communities, and amounts in 2025 dollars). The script requires an internet connection to fetch the 2025 exchange rate from the SII.
 
 The results will be stores in `/results`:
 
 1. `/results/tables`: All tables as numbered as in the paper, starting with **M** for the main manuscript tables and **S** for supplementary tables. 
 2. `/results/figures`: All figures as numbered as in the paper, starting with **M** for the main manuscript figures and **S** for supplementary figures. 
 3. `/No_Table_Results_2026.log`: Results used to construct some of the supplementary tables, the log files records the number of the table related to each output as numbered in the supplementary material of the paper.
+4. `/results/admin_description.txt`: The administrative-data report produced by `_replication_adm.py`, summarizing hectares acquired, beneficiary communities, and program amounts in 2025 dollars from the CONADI administrative data.
 
 ---
 

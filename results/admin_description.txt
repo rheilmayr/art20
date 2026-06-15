@@ -1,0 +1,19 @@
+================================================================
+FINAL REPORT — ADM through 2022
+================================================================
+Hectares acquired               :          218,901.2 ha
+Communities (unique REGION+PJ)   :                492
+Nominal amount (current CLP)     :    530,032,315,161
+Amount in Dec-2025 pesos         :    886,212,771,358
+Amount in 2025 dollars           :        934,560,082  (US$ 934.6 M)
+----------------------------------------------------------------
+Average observed USD rate 2025   :     948.27 CLP/USD  (n=245 days)
+   range 904.54 – 999.84
+UF on Dec-31-2025                : 39,727.96
+================================================================
+
+Core Study Area:
+  Hectares in study area :          217,715.7 ha
+  Share of total hectares     :             99.46%
+  Hectares in core study area :          206,555.6 ha
+  Share of total hectares     :             94.36%

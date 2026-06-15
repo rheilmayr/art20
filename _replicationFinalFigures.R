@@ -37,19 +37,29 @@ prov <- st_read(prov_path) %>% filter(ISO_A2=="CL")
 reg_path <- "data/figdata/World Bank Official Boundaries - Admin 1 - Chile.gpkg"
 reg2 <- st_read(reg_path) %>% filter(ISO_A2=="CL")
 
-prov <- prov %>%
-   filter(NAM_2 == "Osorno")
+prov1 <- prov %>%
+   filter(NAM_2 %in% c("Osorno", "Biobio", "Arauco"))
 
 reg <- reg2 %>%
-  filter(ADM1CD_c %in% c("CHL006", "CHL003", "CHL010"))
+  filter(ADM1CD_c %in% c("CHL003", "CHL010", "CHL009"))
 
+reg_focus <- reg2 %>%
+  filter(ADM1CD_c %in% c("CHL003", "CHL010"))
+
+prov2 <- prov %>%
+   filter(NAM_2 %in% c("Concepcion"))
+
+objectid2 <- objectid %>%
+  filter(as.numeric(COD_REGION) %in% c(08, 09, 10, 14)) %>%
+  filter(A_O <2023)
+
+objectid2$A_O <- as.numeric(as.character(objectid2$A_O))
 
 objectid <- objectid %>%
   filter(as.numeric(COD_REGION) %in% c(08, 09, 10, 14) & !PROVINCIA %in% c("CHILOE", "LLANQUIHUE")) %>%
   filter(A_O <2023)
   
 objectid$A_O <- as.numeric(as.character(objectid$A_O))
-
 
 theme_set(
   theme_minimal(base_family = "Arial", base_size = 7)
@@ -64,8 +74,8 @@ text_override <- theme(
 )
 
 date_map <- ggplot() +
-   geom_sf(data = reg, fill = "white", color = "gray") +
-   geom_sf(data = prov, fill = "white", color = "gray") +
+  geom_sf(data = reg_focus, fill = "white", color = "gray") +
+  geom_sf(data = prov1, fill = "white", color = "gray") +
   geom_sf(data = objectid, aes(fill = A_O), color = NA) +
   coord_sf(crs = st_crs("EPSG:32718")) +
   scale_fill_gradientn(
@@ -102,8 +112,10 @@ date_map <- ggplot() +
 
 chile <- ggplot() +
   geom_sf(data = reg2, fill = "white", color = "gray") +
-  geom_sf(data = reg, fill = "black", color = "gray", alpha = 0.8) +
-  geom_sf(data = prov, fill = "black", color = "gray", alpha = 0.8) +
+  geom_sf(data = reg, fill = "gray", color = "gray", alpha = 0.8) +  
+  geom_sf(data = prov1, fill = "black", color = "gray", alpha = 0.8) +
+  geom_sf(data = reg_focus, fill = "black", color = "gray", alpha = 0.8) +
+  geom_sf(data = prov2, fill = "gray", color = "gray", alpha = 0.8) +
   coord_sf(
     crs = st_crs("EPSG:32718"),
     xlim = c(200000, 1300000)
@@ -119,7 +131,7 @@ chile <- ggplot() +
   ) +
   text_override
 
-hist_legend <- ggplot(objectid, aes(x = A_O)) +  
+hist_legend <- ggplot(objectid2, aes(x = A_O)) +  
   annotate(
     "rect",
     xmin = 2002, xmax = 2022,
@@ -135,8 +147,8 @@ hist_legend <- ggplot(objectid, aes(x = A_O)) +
   ) +
   scale_fill_gradient(low = "yellow", high = "red", guide = "none") +
   scale_x_continuous(
-    limits = c(min(objectid$A_O, na.rm = TRUE), 2022),
-    breaks = seq(min(objectid$A_O, na.rm = TRUE), 2022, by = 5)
+    limits = c(min(objectid2$A_O, na.rm = TRUE), 2022),
+    breaks = seq(min(objectid2$A_O, na.rm = TRUE), 2022, by = 5)
   ) +
   labs(
     x = NULL,
